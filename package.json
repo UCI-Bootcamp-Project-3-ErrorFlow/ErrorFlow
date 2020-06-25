@@ -1,0 +1,24 @@
+{
+  "name": "ErrorFlow",
+  "version": "1.0.0",
+  "description": "2020 UCI Bootcamp Project 3",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UCI-Bootcamp-Project-3-ErrorFlow/ErrorFlow.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UCI-Bootcamp-Project-3-ErrorFlow/ErrorFlow/issues"
+  },
+  "homepage": "https://github.com/UCI-Bootcamp-Project-3-ErrorFlow/ErrorFlow#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.20"
+  }
+}
