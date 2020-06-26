@@ -2,10 +2,16 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const { join } = require('path')
-app.use(require('./routes'))
+
+
+
 app.use(express.static(join(__dirname, 'client', 'build')))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+
+//must come before app.get
+app.use(require('./routes'))
+//don't move me
 app.get('*', (req, res) => {
     res.sendFile(join(__dirname, 'client', 'build', 'index.html'))
 })
@@ -32,8 +38,6 @@ passport.use(
         .catch((err) => cb(err))
   )
 );
-
-
 
 require('mongoose').connect(process.env.MONGODB_URI || process.env.LOCAL_URI, {
   useNewUrlParser: true,

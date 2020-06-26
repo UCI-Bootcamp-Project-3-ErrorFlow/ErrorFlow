@@ -6,51 +6,90 @@ const SignUp = () => {
     name: '',
     username: '',
     password: '',
+    newUsername: '',
+    newPassword: '',
     email: '',
     users: [],
   });
 
-  userState.handleInputChange = (event) => {
+  userState.handleInputSignUp = (event) => {
+    setUserState({ ...userState, [event.target.name]: event.target.value });
+  };
+
+  userState.handleInputSignIn = (event) => {
     setUserState({ ...userState, [event.target.name]: event.target.value });
   };
 
   userState.handleSignUpBtn = (event) => {
     event.preventDefault();
-    console.log(userState.username);
-    console.log(userState.password);
     //request to server here
     axios.post('/api/users/register', {
-      username: userState.username,
-      password: userState.password
+      username: userState.newUsername,
+      password: userState.newPassword
     })
       .then(data => {
-        console.log(data)
+        if ({ data }) {
+          console.log('successful signup')
+          
+        } else {
+          console.log('Sign-up error')
+        }
       })
       .catch(err => console.error(err))
+      if (localStorage.getItem('user')) {
+        axios
+          .get('/api/users/authorize', {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('user')}`,
+            },
+          })
+          .then(() => {     
+          setUserState({
+            redirectTo: '/Main'})
+          })
+          .catch((err) => console.error(err));
+      }
   };
+
+  userState.handleSignInBtn = (event) => {
+    event.preventDefault();
+    axios.post('/api/users/login', {
+            username: userState.username,
+            password: userState.password,
+          })
+          .then(({ data }) => {
+            if (data) {
+              localStorage.setItem('user', data);
+              window.location = '/Main';
+            } else {
+              alert('Incorrect username or password!');
+            }
+          })
+          .catch((err) => console.error(err));
+  }
 
   return (
     <>
       <h1>Sign In page</h1>
-      {/* <div>
+      <div>
         <form>
           <label htmlFor='username'>Username: </label>
           <input
             type='text'
             name='username'
-            onChange={userState.handleInputChange}
+            onChange={userState.handleInputSignIn}
             value={userState.username}
           />
           <label htmlFor='username'>Password: </label>
           <input
             type='password'
             name='password'
-            onChange={userState.handleInputChange}
+            onChange={userState.handleInputSignIn}
             value={userState.password}
           />
-          <button onClick={userState.handleSignUpBtn}>Submit:</button>
+          <button onClick={userState.handleSignInBtn}>Submit:</button>
         </form>
-      </div> */}
+      </div>
 
       <h3>Sign Up Form</h3>
       <form>
@@ -62,7 +101,7 @@ const SignUp = () => {
           name='name'
           label='name'
           value={userState.name}
-          onChange={userState.handleInputChange}
+          onChange={userState.handleInputSignUp}
         />
         <label
           htmlFor='email'
@@ -72,25 +111,25 @@ const SignUp = () => {
           name='email'
           label='email'
           value={userState.email}
-          onChange={userState.handleInputChange}/>
+          onChange={userState.handleInputSignUp}/>
         <label
-        htmlFor='username'
+        htmlFor='newUsername'
         >Username</label>
         <input
           type='text'
-          name='username'
-          label='username'
-          value={userState.username}
-          onChange={userState.handleInputChange}/>
+          name='newUsername'
+          label='newUsername'
+          value={userState.newUsername}
+          onChange={userState.handleInputSignUp}/>
         <label
-        htmlFor='password'
+        htmlFor='newPassword'
         >Password</label>
         <input
           type='password'
-          name='password'
-          label='password'
-          value={userState.password}
-          onChange={userState.handleInputChange}/>
+          name='newPassword'
+          label='newPassword'
+          value={userState.newPassword}
+          onChange={userState.handleInputSignUp}/>
         <button onClick={userState.handleSignUpBtn}>Submit:</button>
       </form>
     </>
