@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const { join } = require('path')
+app.use(require('./routes'))
 app.use(express.static(join(__dirname, 'client', 'build')))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -33,7 +34,7 @@ passport.use(
 );
 
 
-app.use(require('./routes'))
+
 require('mongoose').connect(process.env.MONGODB_URI || process.env.LOCAL_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
