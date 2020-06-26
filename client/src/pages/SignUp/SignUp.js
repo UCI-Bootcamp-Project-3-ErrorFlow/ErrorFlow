@@ -14,8 +14,8 @@ const SignUp = () => {
 
   userState.handleSignUpBtn = (event) => {
     event.preventDefault();
-    console.log('ping')
-    
+    console.log(userState.username);
+    console.log(userState.password);
   };
 
   return (
@@ -24,21 +24,21 @@ const SignUp = () => {
 
       <div>
         <form>
+          <label htmlFor='username'>username</label>
           <input
             type='text'
             name='username'
-            label='Username'
+            onChange={userState.handleInputChange}
             value={userState.username}
           />
-          username
+          <label htmlFor='username'>password</label>
           <input
             type='text'
             name='password'
-            label='Password'
+            onChange={userState.handleInputChange}
             value={userState.password}
           />
-          password
-          <button onClick={userState.handleSignUpBtn}> submit</button>
+          <button onClick={userState.handleSignUpBtn}>submit</button>
         </form>
       </div>
     </>
