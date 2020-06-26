@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <nav>
+      <a href="/index.html">Home Page</a>
+      <a href="/profile.html">Profile Page</a>
+      <button id="signOut">Sign Out</button>
+    </nav>
+    <h2>Your Info</h2>
+    <div id="user"></div>
+    <hr />
+    <h2>Your Posts</h2>
+    <div id="posts"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      document.getElementById('signOut').addEventListener('click', (event) => {
+        localStorage.removeItem('user');
+        window.location = '/auth.html';
+      });
+
+      if (localStorage.getItem('user')) {
+        axios
+          .get('/api/users/posts', {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('user')}`,
+            },
+          })
+          .then(({ data }) => {
+            document.getElementById('user').innerHTML = `
+                  <h4>Name: ${data.name}</h4>
+                  <h4>Username: ${data.username}</h4>
+                  <h4>Email: ${data.email}</h4>
+                `;
+            data.posts.forEach((post) => {
+              let postElem = document.createElement('div');
+              postElem.innerHTML = `
+                <h3>${post.title}</h3>
+                <p>${post.body}</p>
+                <hr>
+              `;
+              document.getElementById('posts').append(postElem);
+            });
+          })
+          .catch((err) => {
+            window.location = '/auth.html';
+          });
+      } else {
+        window.location = '/auth.html';
+      }
+    </script>
+  </body>
+</html>

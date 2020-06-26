@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h5>Register</h5>
+    <form>
+      <p>
+        <label for="newName">name</label>
+        <input type="text" name="newName" id="newName" />
+      </p>
+      <p>
+        <label for="newEmail">email</label>
+        <input type="email" name="newEmail" id="newEmail" />
+      </p>
+      <p>
+        <label for="newUsername">username</label>
+        <input type="text" name="newUsername" id="newUsername" />
+      </p>
+      <p>
+        <label for="newPassword">password</label>
+        <input type="password" name="newPassword" id="newPassword" />
+      </p>
+      <p>
+        <button id="register">Register</button>
+      </p>
+    </form>
+
+    <hr />
+
+    <h5>Sign In</h5>
+    <form>
+      <p>
+        <label for="username">username</label>
+        <input type="text" name="username" id="username" />
+      </p>
+      <p>
+        <label for="password">password</label>
+        <input type="password" name="password" id="password" />
+      </p>
+      <p>
+        <button id="signIn">Sign In</button>
+      </p>
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      document.getElementById('register').addEventListener('click', (event) => {
+        event.preventDefault();
+        axios
+          .post('/api/users/register', {
+            name: document.getElementById('newName').value,
+            email: document.getElementById('newEmail').value,
+            username: document.getElementById('newUsername').value,
+            password: document.getElementById('newPassword').value,
+          })
+          .then(() => {
+            alert('Successfully registered! Please sign in!');
+            document.getElementById('newName').value = '';
+            document.getElementById('newEmail').value = '';
+            document.getElementById('newUsername').value = '';
+            document.getElementById('newPassword').value = '';
+          })
+          .catch((err) => console.error(err));
+      });
+
+      document.getElementById('signIn').addEventListener('click', (event) => {
+        event.preventDefault();
+        axios
+          .post('/api/users/login', {
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value,
+          })
+          .then(({ data }) => {
+            if (data) {
+              localStorage.setItem('user', data);
+              window.location = '/index.html';
+            } else {
+              alert('Incorrect username or password!');
+              document.getElementById('username').value = '';
+              document.getElementById('password').value = '';
+            }
+          })
+          .catch((err) => console.error(err));
+      });
+
+      if (localStorage.getItem('user')) {
+        axios
+          .get('/api/users/authorize', {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('user')}`,
+            },
+          })
+          .then(() => {
+            window.location = '/index.html';
+          })
+          .catch((err) => console.error(err));
+      }
+    </script>
+  </body>
+</html>
