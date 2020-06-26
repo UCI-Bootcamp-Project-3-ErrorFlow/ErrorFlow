@@ -11,10 +11,22 @@ function App() {
       <Router>
         <div>
           <nav>
-            <Link></Link>
-            <Link></Link>
-            <Link></Link>
+            <Link to='/'>SignUp</Link>
+            <Link to='/Main'>Main</Link>
+            <Link to='/LikedPost'>LikedPost</Link>
           </nav>
+          <Switch>
+            <Route exact path='/'>
+              <SignUp />
+            </Route>
+            <Route path='/Main'>
+              <Main />
+            </Route>
+            <Route path='/LikedPost'>
+              <LikedPost />
+            </Route>
+            <Route path='/'> 404 Page Not Found</Route>
+          </Switch>
         </div>
       </Router>
     </>

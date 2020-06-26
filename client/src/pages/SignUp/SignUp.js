@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
 const SignUp = () => {
   const [userState, setUserState] = useState({
@@ -12,31 +12,33 @@ const SignUp = () => {
     setUserState({ ...userState, [event.target.name]: event.target.value });
   };
 
+  userState.handleSignUpBtn = (event) => {
+    event.preventDefault();
+    console.log('ping')
+    
+  };
+
   return (
     <>
       <h1>SignUp page</h1>
 
       <div>
-        <form onSubmit={}>
+        <form>
           <input
             type='text'
             name='username'
             label='Username'
             value={userState.username}
-          >
-            {' '}
-            username
-          </input>
+          />
+          username
           <input
             type='text'
             name='password'
             label='Password'
             value={userState.password}
-          >
-            {' '}
-            password
-          </input>
-          <button>submit</button>
+          />
+          password
+          <button onClick={userState.handleSignUpBtn}> submit</button>
         </form>
       </div>
     </>
