@@ -34,5 +34,6 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1"
-  }
+  },
+  "proxy": "http://localhost:3000"
 }
