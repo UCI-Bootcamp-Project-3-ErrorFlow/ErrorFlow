@@ -9,6 +9,7 @@ const Main = () => {
     username: '',
     title: '',
     body: '',
+    tag:'',
     multerImage: '',
     isSolved: Boolean,
     posts: [],
@@ -17,11 +18,9 @@ const Main = () => {
   postState.uploadImage = (e, method) => {
     console.log(e.target.files[0]);
     let imageEvent = e.target.files[0];
-    let imageFormObj = new FormData();
-    if (method === 'multer') {
-      imageFormObj.append('imageName', 'multer-image' + Date.now());
-    }
-
+    let imageFormObj = {imageName:imageEvent.name}
+      // imageFormObj.append('imageName', 'multer-image' + Date.now());
+  
     setPostState({
       ...postState,
       multerImage: URL.createObjectURL(imageEvent),
@@ -31,6 +30,7 @@ const Main = () => {
       .post('/api/image/uploadmulter', imageFormObj)
       .then(({ data }) => {
         if (data.success) {
+          console.log(data)
           console.log('successfully uploaded image');
           postState.setDefaultImage('multer');
         }
@@ -62,6 +62,7 @@ const Main = () => {
           body: postState.body,
           image: postState.multerImage,
           isSolved: false,
+          tag:postState.tag,
         },
         {
           headers: {
