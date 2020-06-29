@@ -11,6 +11,7 @@ router.get('/posts', passport.authenticate('jwt'), (req, res) => {
     .populate('image')
     .populate('tag')
     .populate('comment')
+    .populate('likes')
     .then((posts) => res.json(posts))
     .catch((err) => console.error(err));
 });
@@ -21,6 +22,8 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
     body: req.body.body,
     isSolved: req.body.isSolved,
     image: req.body.image,
+    //added by A and L for liked routes
+    isLiked: false,
     tag: req.body.tag,
     comment: req.body.comment,
     author: req.user._id,
@@ -33,6 +36,8 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
             body: post.body,
             isSolved: post.isSolved,
             image: post.image,
+            //added by A and L for liked routes
+            isLiked: post.liked,
             tag: post.tag,
             comment: post.comment,
             author: req.user,

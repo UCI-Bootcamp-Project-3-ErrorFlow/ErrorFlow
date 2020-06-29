@@ -14,7 +14,9 @@ const Post = new Schema({
 
   tag: [{ type: Schema.Types.Array, ref: 'Tag' }],
   comment: [{ type: Schema.Types.Array, ref: 'Comment' }],
-  // like: Number,
+  like: 
+       [{ type: Number},
+        { type: Boolean}],
   //users who have posts, lets call them author,
   author: {
     type: Schema.Types.ObjectId, //we are building relations here with model called 'User'.
