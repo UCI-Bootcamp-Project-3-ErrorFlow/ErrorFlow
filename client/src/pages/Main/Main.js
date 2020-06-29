@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 // import PostContext from '../../utils/PostContext';
 import axios from 'axios';
 // import { post } from '../../../../routes';
+import TextEditor from '../../components/TextEditor';
 
 const Main = () => {
   const [postState, setPostState] = useState({
@@ -121,6 +122,8 @@ const Main = () => {
         </label>
         <button onClick={postState.createNewPostBtn}>New Post</button>
       </form>
+      
+      <TextEditor/>
     </>
   );
 };

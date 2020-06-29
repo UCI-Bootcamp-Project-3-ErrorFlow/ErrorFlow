@@ -1,1 +1,1 @@
-export {default} from './LikedPost.js'
+export { default } from './LikedPost.js';
