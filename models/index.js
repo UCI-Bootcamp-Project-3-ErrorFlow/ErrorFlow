@@ -1,7 +1,8 @@
 module.exports = {
-  User: require('./User'),
-  Post: require('./Post'),
-  Tag: require('./Tag'),
-  Comment: require('./Comment'),
+  User: require('./User.js'),
+  Post: require('./Post.js'),
+  Tag: require('./Tag.js'),
+  Comment: require('./Comment.js'),
+  Like: require('./Like.js')
   // Image: require('./Image'),
 };

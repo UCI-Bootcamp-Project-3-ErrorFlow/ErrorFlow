@@ -2,12 +2,12 @@ const { model, Schema } = require('mongoose');
 
 const Comment = new Schema({
   title: String,
-  body: String,
+  commentBody: String,
   postId:{
     type: Schema.Types.ObjectId,
     ref: 'Post'
   },
-  author: {
+  commentAuthor: {
     type: Schema.Types.ObjectId, //we are building relations here with model called 'User'.
     ref: 'User', //will be populated in post routes
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-const LikedPost = () => {
+const LikedPosts = () => {
   return (
     <>
       <h1>Liked posts page</h1>
@@ -7,4 +7,4 @@ const LikedPost = () => {
   );
 };
 
-export default LikedPost;
+export default LikedPosts;
