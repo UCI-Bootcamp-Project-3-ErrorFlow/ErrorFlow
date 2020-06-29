@@ -20,11 +20,13 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.create({
     title: req.body.title,
     body: req.body.body,
-    isSolved: req.body.isSolved,
-    //added by A and L for liked routes
-    isLiked: false,
-    // image: req.body.image,
     tag: req.body.tag,
+    isSolved: req.body.isSolved,
+    likeValue: req.body.likeValue,
+    isLiked: false,
+    commentBody: req.body.commentBody,
+    commentAuthor: req.body.commentAuthor,
+    // image: req.body.image,
     comment: req.body.comment,
     author: req.user._id,
   })
