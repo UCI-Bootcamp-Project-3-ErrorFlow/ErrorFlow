@@ -1,6 +1,7 @@
 import React from 'react'
 import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js'
 import './textEditor.css'
+import '../../../../node_modules/draft-js/dist/Draft.css'
 
 class TextEditor extends React.Component {
     constructor(props) {
@@ -61,8 +62,6 @@ class TextEditor extends React.Component {
     render() {
       const {editorState} = this.state;
 
-      // If the user changes block type before entering any text, we can
-      // either style the placeholder or hide it. Let's just hide it now.
       let className = 'RichEditor-editor';
       var contentState = editorState.getCurrentContent();
       if (!contentState.hasText()) {
@@ -89,7 +88,7 @@ class TextEditor extends React.Component {
               handleKeyCommand={this.handleKeyCommand}
               keyBindingFn={this.mapKeyToEditorCommand}
               onChange={this.onChange}
-              placeholder="Tell a story..."
+              placeholder="Tell Us About Your Errors..."
               ref="editor"
               spellCheck={true}
             />
