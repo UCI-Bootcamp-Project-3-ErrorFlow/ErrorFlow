@@ -10,57 +10,59 @@ const Main = () => {
     title: '',
     body: '',
     tag:'',
-    multerImage: '',
+    // multerImage: '',
     isSolved: Boolean,
     posts: [],
   });
 
-  postState.uploadImage = (e, method) => {
-    console.log(e.target.files[0]);
-    let imageEvent = e.target.files[0];
-    let imageFormObj = {imageName:imageEvent.name}
-      // imageFormObj.append('imageName', 'multer-image' + Date.now());
+  // postState.uploadImage = (e, method) => {
+  //   console.log(e.target.files[0]);
+  //   let imageEvent = e.target.files[0];
+  //   let imageFormObj = {imageName:imageEvent.name}
+  //     // imageFormObj.append('imageName', 'multer-image' + Date.now());
   
-    setPostState({
-      ...postState,
-      multerImage: URL.createObjectURL(imageEvent),
-    });
+  //   setPostState({
+  //     ...postState,
+  //     multerImage: URL.createObjectURL(imageEvent),
+  //   });
 
-    axios
-      .post('/api/image/uploadmulter', imageFormObj)
-      .then(({ data }) => {
-        if (data.success) {
-          console.log(data)
-          console.log('successfully uploaded image');
-          postState.setDefaultImage('multer');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        postState.setDefaultImage('multer');
-      });
+  //   axios
+  //     .post('/api/image/uploadmulter', imageFormObj)
+  //     .then(({ data }) => {
+  //       if (data.success) {
+  //         console.log(data)
+  //         console.log('successfully uploaded image');
+  //         postState.setDefaultImage('multer');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       postState.setDefaultImage('multer');
+  //     });
 
-    postState.setDefaultImage = (uploadType) => {
-      if (uploadType === 'multer') {
-        setPostState({
-          ...postState,
-          multerImage: URL.createObjectURL(imageEvent),
-        });
-      }
-    };
-  };
+  //   postState.setDefaultImage = (uploadType) => {
+  //     if (uploadType === 'multer') {
+  //       setPostState({
+  //         ...postState,
+  //         multerImage: URL.createObjectURL(imageEvent),
+  //       });
+  //     }
+  //   };
+  // };
 
   postState.createNewPostBtn = (event) => {
     event.preventDefault();
     
-    setPostState({ ...postState, title: '', body: '', multerImage: '' });
+    setPostState({ ...postState, title: '', body: ''
+    // , multerImage: '' 
+  });
     axios
       .post(
         '/api/posts',
         {
           title: postState.title,
           body: postState.body,
-          image: postState.multerImage,
+          // image: postState.multerImage,
           isSolved: false,
           tag:postState.tag,
         },
@@ -103,11 +105,11 @@ const Main = () => {
           />
         </label>
 
-        <input
+        {/* <input
           type='file'
           onChange={(e) => postState.uploadImage(e, 'multer')}
         ></input>
-        <img src={postState.multerImage} alt='image' />
+        <img src={postState.multerImage} alt='image' /> */}
 
         <label htmlFor='body'>
           Description:
