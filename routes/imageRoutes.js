@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     cb(null, './uploads/');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now(), +file.originalname);
+    cb(null, Date.now(), + file.originalname);
   },
 });
 
@@ -25,13 +25,13 @@ const upload = multer({
   fileFilter: fileFilter,
 });
 
-router
-  .route('/uploadmulter')
-  .post(upload.single('imageData'), (req, res, next) => {
+router.post(
+  '/image/uploadmulter',
+  upload.single('imageData'),
+  (req, res, next) => {
     console.log(req.body);
     const newImage = new Image({
-      imageName: req.body.imageName,
-      imageData: req.file.path,
+      imageName: req.body.imageName
     });
 
     newImage
@@ -44,24 +44,7 @@ router
         });
       })
       .catch((err) => next(err));
-  });
-
-// router.get('/posts/images', (req, res) => {
-//   Post.find()
-//     .populate('author')
-//     .then((posts) => res.json(posts))
-//     .catch((err) => console.error(err));
-// });
-
-// router.post('/posts', (req, res) => {
-//   Post.create({
-//     title: req.body.title,
-//     body: req.body.body,
-//     isSolved: req.body.isSolved,
-//     author: req.user._id,
-//   })
-//     .then(() => {})
-//     .catch((err) => console.error(err));
-// });
+  }
+);
 
 module.exports = router;
