@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch, Link, Route, BrowserRouter as Router } from 'react-router-dom';
 import Main from './pages/Main';
 import SignUp from './pages/SignUp';
-import LikedPost from './pages/LikedPost';
+import LikedPosts from './pages/LikedPosts';
+import MyPosts from './pages/MyPosts';
 import './App.css';
 
 function App() {
@@ -11,9 +12,10 @@ function App() {
       <Router>
         <div>
           <nav>
-            <Link to='/'>SignUp</Link>
+            <Link to='/'>Sign Up</Link>
             <Link to='/Main'>Main</Link>
-            <Link to='/LikedPost'>LikedPost</Link>
+            <Link to='/LikedPosts'>Liked Post</Link>
+            <Link to='/MyPosts'>My Posts</Link>
           </nav>
           <Switch>
             <Route exact path='/'>
@@ -22,8 +24,11 @@ function App() {
             <Route path='/Main'>
               <Main />
             </Route>
-            <Route path='/LikedPost'>
-              <LikedPost />
+            <Route path='/LikedPosts'>
+              <LikedPosts />
+            </Route>
+            <Route path='/MyPosts'>
+              <MyPosts />
             </Route>
             <Route path='/'> 404 Page Not Found</Route>
           </Switch>
