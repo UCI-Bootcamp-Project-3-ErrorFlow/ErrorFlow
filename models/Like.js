@@ -3,7 +3,7 @@ const { model, Schema } = require('mongoose');
 const Like = new Schema({
   likeValue: Number,
   isLiked: Boolean,
-  post: [
+  postId: [
     {
       type: Schema.Types.ObjectId,
       ref: 'Post',
