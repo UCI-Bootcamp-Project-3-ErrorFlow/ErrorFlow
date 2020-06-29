@@ -4,13 +4,13 @@ const Post = new Schema({
   title: String,
   body: String,
   isSolved: Boolean,
-  image: [
-    { type: Schema.Types.Array, ref: 'Image' },
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Image',
-    },
-  ],
+  // image: [
+  //   { type: Schema.Types.Array, ref: 'Image' },
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'Image',
+  //   },
+  // ],
 
   tag: [{ type: Schema.Types.Array, ref: 'Tag' }],
   comment: [{ type: Schema.Types.Array, ref: 'Comment' }],
