@@ -8,6 +8,9 @@ const passport = require('passport');
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.find()
     .populate('author')
+    .populate('image')
+    .populate('tag')
+    .populate('comment')
     .then((posts) => res.json(posts))
     .catch((err) => console.error(err));
 });
@@ -16,6 +19,10 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.create({
     title: req.body.title,
     body: req.body.body,
+    isSolved: req.body.isSolved,
+    image: req.body.image,
+    tag: req.body.tag,
+    comment: req.body.comment,
     author: req.user._id,
   })
     .then((post) => {
@@ -24,6 +31,10 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
           res.json({
             title: post.title,
             body: post.body,
+            isSolved: post.isSolved,
+            image: post.image,
+            tag: post.tag,
+            comment: post.comment,
             author: req.user,
           })
         )
