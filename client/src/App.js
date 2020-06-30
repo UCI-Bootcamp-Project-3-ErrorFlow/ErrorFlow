@@ -5,7 +5,6 @@ import SignUp from './pages/SignUp';
 import LikedPosts from './pages/LikedPosts';
 import MyPosts from './pages/MyPosts';
 import './App.css';
-// import TextEditor from './components/textEditor';
 
 function App() {
   return (
