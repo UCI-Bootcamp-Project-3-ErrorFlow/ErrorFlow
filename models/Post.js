@@ -11,7 +11,10 @@ const Post = new Schema({
   //     ref: 'Image',
   //   },
   // ],
-
+  // user: {
+  //   type: Schema.Types.String,
+  //   ref: 'User'
+  // },
   tag: [{ type: String, ref: 'Tag' }],
   commentBody: [{ type: String, ref: 'Comment' }],
   commentAuthor: [{ type: String, ref: 'Comment'}],
