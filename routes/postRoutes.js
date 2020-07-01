@@ -50,4 +50,10 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
     .catch((err) => console.error(err));
 });
 
+router.delete('/posts/:id', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndRemove(req.params.id)
+  .then(() => res.sendStatus(200))
+  .catch(err => console.error(err))
+})
+
 module.exports = router;
