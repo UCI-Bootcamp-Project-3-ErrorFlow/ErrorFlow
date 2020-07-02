@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const Post = new Schema({
-  title: String,
+  title: Array,
   body: String,
   isSolved: Boolean,
   // image: [
@@ -15,7 +15,7 @@ const Post = new Schema({
   //   type: Schema.Types.String,
   //   ref: 'User'
   // },
-  tag: [{ type: String, ref: 'Tag' }],
+  tag: [{ type: Object, ref: 'Tag' }],
   commentBody: [{ type: String, ref: 'Comment' }],
   commentAuthor: [{ type: String, ref: 'Comment'}],
   likeValue: { type: Number, ref: 'Like' },

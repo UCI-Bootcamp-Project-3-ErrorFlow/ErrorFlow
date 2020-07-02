@@ -47,8 +47,8 @@ class NewPosts extends React.Component {
     tagsArray.push(this.state.tags);
     // console.log(titleArray)
     // console.log(tagsArray)
-    this.saveTitle(titleArray);
-    this.saveTags(tagsArray);
+    // this.saveTitle(titleArray);
+    // this.saveTags(tagsArray);
   };
 
   handleSubmitBtn = (event) => {
@@ -163,7 +163,7 @@ class NewPosts extends React.Component {
               title='title'
               value={this.state.title}
               placeholder='Title'
-              onChange={this.handleInputChange}
+              onChange={(event)=>this.handleInputChange(event)}
             ></input>
             <br></br>
             <label name='tags' title='tags'></label>
@@ -172,7 +172,7 @@ class NewPosts extends React.Component {
               title='tags'
               value={this.state.tags}
               placeholder='Tags'
-              onChange={this.handleInputChange}
+              onChange={(event)=>this.handleInputChange(event)}
             ></input>
             <hr></hr>
           </form>
