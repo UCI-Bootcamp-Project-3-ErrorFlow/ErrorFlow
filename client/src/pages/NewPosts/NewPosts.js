@@ -10,9 +10,6 @@ class NewPosts extends React.Component {
 
     this.state = {
       editorState: EditorState.createEmpty(),
-      savedText: [],
-      tags: '',
-      tagsArray: [],
       title: '',
     };
 
@@ -26,6 +23,7 @@ class NewPosts extends React.Component {
       });
     };
 
+
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
@@ -36,37 +34,26 @@ class NewPosts extends React.Component {
   handleInputChange = (event) => {
     event.preventDefault();
     this.setState({ ...this.state, [event.target.name]: event.target.value });
+  };
 
-    const tagsArray = [];
-    const titleArray = [];
-
-    // let words = this.state.tags;
-    // let tags = words.split(',');
-    // tagsArray.push({ tags: tags });
-    titleArray.push(this.state.title);
-    tagsArray.push(this.state.tags);
-    // console.log(titleArray)
-    // console.log(tagsArray)
-    this.saveTitle(titleArray);
-    this.saveTags(tagsArray);
+  saveContent = (content) => {
+    window.localStorage.setItem('content', JSON.stringify(content));
   };
 
   handleSubmitBtn = (event) => {
     event.preventDefault();
 
     const content = window.localStorage.getItem('content');
-    if (content) {
-      let parsedContent = JSON.parse(content);
-      let parsedBodyContent = '';
-      for (const prop in parsedContent.blockMap) {
-        console.log(parsedContent.blockMap[prop].text);
-        parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
-      }
 
-      const title = window.localStorage.getItem('title');
-      const tags = window.localStorage.getItem('tags');
-      let parsedTitle = JSON.parse(title);
-      let parsedTags = JSON.parse(tags);
+      if (content) {
+        let parsedContent = JSON.parse(content);
+        let parsedBodyContent = '';
+        for (const prop in parsedContent.blockMap) {
+          console.log(parsedContent.blockMap[prop].text);
+          parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
+        }
+
+      let parsedTitle = this.state.title;
 
       axios
         .post(
@@ -75,7 +62,6 @@ class NewPosts extends React.Component {
             title: parsedTitle,
             body: parsedBodyContent,
             isSolved: false,
-            tag: parsedTags,
             commentBody: [],
             commentAuthor: [],
             likeValue: 0,
@@ -94,18 +80,9 @@ class NewPosts extends React.Component {
     } else {
       this.state.editorState = EditorState.createEmpty();
     }
-  };
-
-  saveTitle = (title) => {
-    window.localStorage.setItem('title', JSON.stringify(title));
-  };
-
-  saveTags = (tags) => {
-    window.localStorage.setItem('tags', JSON.stringify(tags));
-  };
-
-  saveContent = (content) => {
-    window.localStorage.setItem('content', JSON.stringify(content));
+    this.setState({
+      title: '',
+    });
   };
 
   _handleKeyCommand(command, editorState) {
@@ -163,16 +140,7 @@ class NewPosts extends React.Component {
               title='title'
               value={this.state.title}
               placeholder='Title'
-              onChange={(event)=>this.handleInputChange(event)}
-            ></input>
-            <br></br>
-            <label name='tags' title='tags'></label>
-            <input
-              name='tags'
-              title='tags'
-              value={this.state.tags}
-              placeholder='Tags'
-              onChange={(event)=>this.handleInputChange(event)}
+              onChange={(event) => this.handleInputChange(event)}
             ></input>
             <hr></hr>
           </form>

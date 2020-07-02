@@ -1,21 +1,9 @@
 const { model, Schema } = require('mongoose');
 
 const Post = new Schema({
-  title: Array,
+  title: String,
   body: String,
   isSolved: Boolean,
-  // image: [
-  //   { type: Schema.Types.Array, ref: 'Image' },
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'Image',
-  //   },
-  // ],
-  // user: {
-  //   type: Schema.Types.String,
-  //   ref: 'User'
-  // },
-  tag: [{ type: Object, ref: 'Tag' }],
   commentBody: [{ type: String, ref: 'Comment' }],
   commentAuthor: [{ type: String, ref: 'Comment'}],
   likeValue: { type: Number, ref: 'Like' },

@@ -8,8 +8,6 @@ const passport = require('passport');
 router.get('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.find()
     .populate('author')
-    // .populate('image')
-    .populate('tag')
     .populate('comment')
     .populate('likes')
     .then((posts) => res.json(posts))
@@ -20,13 +18,11 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
   Post.create({
     title: req.body.title,
     body: req.body.body,
-    tag: req.body.tag,
     isSolved: req.body.isSolved,
     likeValue: req.body.likeValue,
     isLiked: false,
     commentBody: req.body.commentBody,
     commentAuthor: req.body.commentAuthor,
-    // image: req.body.image,
     comment: req.body.comment,
     author: req.user._id,
   })
@@ -39,8 +35,6 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
             isSolved: post.isSolved,
             //added by A and L for liked routes
             isLiked: post.liked,
-            // image: post.image,
-            tag: post.tag,
             comment: post.comment,
             author: req.user,
           })

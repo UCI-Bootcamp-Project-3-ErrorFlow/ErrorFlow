@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import { post } from '../../../../routes/postRoutes';
 
 const MyPosts = () => {
   const [postState, setPostState] = useState({
@@ -41,33 +40,20 @@ const MyPosts = () => {
           myPosts: data.posts,
           users: data.username,
         });
-        // postState.myPosts.push({user:postState.username})
-        // console.log(postState.users)
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  // componentDidUpdate(prevProps) {
-  //     // Typical usage (don't forget to compare props):
-  //     if (this.props.userID !== prevProps.userID) {
-  //       this.fetchData(this.props.userID);
-  //     }
-  //   }
-
   return (
     <>
       <div>
         <button onClick={postState.handleViewBtn}>View All My Posts</button>
       </div>
-      {/* {postState.users.map((item) => (
-          <h1>{item}</h1>
-      ))} */}
       {postState.myPosts.map((item) => (
         <div key={item._id} style={{ border: '1px solid black' }}>
           <h4>{item.title}</h4>
-          <h4>{item.tag}</h4>
           <p>{item.body}</p>
           <button onClick={() => postState.handleDeletePost(item)}>
             Delete
