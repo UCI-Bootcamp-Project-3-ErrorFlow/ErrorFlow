@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Link, Route, BrowserRouter as Router } from 'react-router-dom';
 import Main from './pages/Main';
 import SignUp from './pages/SignUp';
@@ -8,6 +8,14 @@ import NewPosts from './pages/NewPosts';
 import './App.css';
 
 function App() {
+  const [postState] = useState({
+  });
+  
+  postState.signOutBtn = () => {
+    localStorage.removeItem('user');
+    window.location = '/';
+  };
+
   return (
     <>
       <Router>
@@ -18,6 +26,8 @@ function App() {
             <Link to='/LikedPosts'>Liked Post</Link>
             <Link to='/MyPosts'>My Posts</Link>
             <Link to='/NewPosts'>New Posts</Link>
+            <button onClick={postState.signOutBtn}>Sign Out</button>
+          
           </nav>
           <Switch>
             <Route exact path='/'>
