@@ -47,8 +47,8 @@ class NewPosts extends React.Component {
     tagsArray.push(this.state.tags);
     // console.log(titleArray)
     // console.log(tagsArray)
-    // this.saveTitle(titleArray);
-    // this.saveTags(tagsArray);
+    this.saveTitle(titleArray);
+    this.saveTags(tagsArray);
   };
 
   handleSubmitBtn = (event) => {
