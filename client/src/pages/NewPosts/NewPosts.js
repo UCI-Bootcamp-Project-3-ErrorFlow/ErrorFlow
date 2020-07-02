@@ -8,7 +8,10 @@ class NewPosts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { editorState: EditorState.createEmpty(), savedText: [], tags: [], title: '' };
+    this.state = {
+      editorState: EditorState.createEmpty(),
+      title: '',
+    };
 
     this.focus = () => this.refs.editor.focus();
 
@@ -20,6 +23,7 @@ class NewPosts extends React.Component {
       });
     };
 
+
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
@@ -27,38 +31,37 @@ class NewPosts extends React.Component {
   }
 
   //for tag and title post info
-  handleInputChange = event => {
-    event.preventDefault()
-    this.setState({ [event.target.name]: event.target.value})
-    console.log("tags: ", this.state.tags, "title: ", this.state.title)
-    const tagsArray = []
-    const titleArray = []
-    tagsArray.push({tags: this.state.tags})
-    titleArray.push({title: this.state.title})
-    console.log(tagsArray)
-    console.log(titleArray)
-  }
+  handleInputChange = (event) => {
+    event.preventDefault();
+    this.setState({ ...this.state, [event.target.name]: event.target.value });
+  };
+
+  saveContent = (content) => {
+    window.localStorage.setItem('content', JSON.stringify(content));
+  };
 
   handleSubmitBtn = (event) => {
     event.preventDefault();
 
     const content = window.localStorage.getItem('content');
-    if (content) {
-      let parsedContent = JSON.parse(content);
-      let parsedBodyContent = '';
-      for (const prop in parsedContent.blockMap) {
-        console.log(parsedContent.blockMap[prop].text);
-        parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
-      }
+
+      if (content) {
+        let parsedContent = JSON.parse(content);
+        let parsedBodyContent = '';
+        for (const prop in parsedContent.blockMap) {
+          console.log(parsedContent.blockMap[prop].text);
+          parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
+        }
+
+      let parsedTitle = this.state.title;
 
       axios
         .post(
           '/api/posts',
           {
-            title: 'titleexample',
+            title: parsedTitle,
             body: parsedBodyContent,
             isSolved: false,
-            tag: [],
             commentBody: [],
             commentAuthor: [],
             likeValue: 0,
@@ -77,10 +80,9 @@ class NewPosts extends React.Component {
     } else {
       this.state.editorState = EditorState.createEmpty();
     }
-  };
-
-  saveContent = (content) => {
-    window.localStorage.setItem('content', JSON.stringify(content));
+    this.setState({
+      title: '',
+    });
   };
 
   _handleKeyCommand(command, editorState) {
@@ -129,42 +131,43 @@ class NewPosts extends React.Component {
     }
 
     return (
-      <div className='RichEditor-root'>
-        <form>
-        <label name="title" title="title"></label>
-        <input name="title" title="title" value={this.state.title} placeholder="Title" onChange={this.handleInputChange}></input>
-        <br></br>
-        <label name="tags" title="tags"></label>
-        <input name="tags" title="tags" value={this.state.tags} placeholder="Tags" onChange={this.handleInputChange}></input>
-        <hr></hr>
-        </form>
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
-        <div className={className} onClick={this.focus}>
-          <Editor
-            blockStyleFn={getBlockStyle}
-            customStyleMap={styleMap}
+      <>
+        <div className='RichEditor-root'>
+          <form>
+            <label name='title' title='title'></label>
+            <input
+              name='title'
+              title='title'
+              value={this.state.title}
+              placeholder='Title'
+              onChange={(event) => this.handleInputChange(event)}
+            ></input>
+            <hr></hr>
+          </form>
+          <BlockStyleControls
             editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={this.mapKeyToEditorCommand}
-            onChange={this.onChange}
-            placeholder='Tell Us About Your Errors...'
-            ref='editor'
-            spellCheck={true}
+            onToggle={this.toggleBlockType}
           />
-        </div>
-        <div>
-          <div>
-            <button onClick={this.handleSubmitBtn}>Submit</button>
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+          <div className={className} onClick={this.focus}>
+            <Editor
+              blockStyleFn={getBlockStyle}
+              customStyleMap={styleMap}
+              editorState={editorState}
+              handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.mapKeyToEditorCommand}
+              onChange={this.onChange}
+              placeholder='Tell Us About Your Errors...'
+              ref='editor'
+              spellCheck={true}
+            />
           </div>
         </div>
-      </div>
+        <button onClick={this.handleSubmitBtn}>Submit</button>
+      </>
     );
   }
 }
@@ -246,8 +249,14 @@ const BlockStyleControls = (props) => {
 };
 
 var INLINE_STYLES = [
-  { label: <img src="https://img.icons8.com/android/24/000000/bold.png"/>, style: 'BOLD' },
-  { label: <img src="https://img.icons8.com/officexs/16/000000/italy.png"/>, style: 'ITALIC' },
+  {
+    label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
+    style: 'BOLD',
+  },
+  {
+    label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
+    style: 'ITALIC',
+  },
   { label: 'Underline', style: 'UNDERLINE' },
   { label: 'Monospace', style: 'CODE' },
 ];

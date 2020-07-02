@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-// import TextEditor from '../../components/myEditor';
 
 const Main = () => {
   const [postState, setPostState] = useState({
     username: '',
     title: '',
     body: '',
-    tag: '',
     isSolved: Boolean,
     posts: [],
   });
@@ -27,7 +25,6 @@ const Main = () => {
           title: postState.title,
           body: postState.body,
           isSolved: false,
-          tag: postState.tag,
         },
         {
           headers: {
@@ -47,31 +44,7 @@ const Main = () => {
 
   return (
     <>
-      {/* <h1>Main page</h1>
-      <form>
-        <label htmlFor='title'>
-          Title:
-          <input
-            type='text'
-            name='title'
-            onChange={postState.handleInputNewPost}
-            value={postState.title}
-          />
-        </label>
-        <label htmlFor='body'>
-          Description:
-          <textarea
-            name='body'
-            onChange={postState.handleInputNewPost}
-            value={postState.body}
-          />
-          <TextEditor
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-          />
-        </label>
-        <button onClick={postState.createNewPostBtn}>New Post</button>
-      </form> */}
+      <h1>view all users posts</h1>
     </>
   );
 };
