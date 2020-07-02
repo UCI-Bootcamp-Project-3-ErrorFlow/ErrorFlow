@@ -8,7 +8,13 @@ class NewPosts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { editorState: EditorState.createEmpty(), savedText: [], tags: [], title: '' };
+    this.state = {
+      editorState: EditorState.createEmpty(),
+      savedText: [],
+      tags: '',
+      tagsArray: [],
+      title: '',
+    };
 
     this.focus = () => this.refs.editor.focus();
 
@@ -27,17 +33,23 @@ class NewPosts extends React.Component {
   }
 
   //for tag and title post info
-  handleInputChange = event => {
-    event.preventDefault()
-    this.setState({ [event.target.name]: event.target.value})
-    console.log("tags: ", this.state.tags, "title: ", this.state.title)
-    const tagsArray = []
-    const titleArray = []
-    tagsArray.push({tags: this.state.tags})
-    titleArray.push({title: this.state.title})
-    console.log(tagsArray)
-    console.log(titleArray)
-  }
+  handleInputChange = (event) => {
+    event.preventDefault();
+    this.setState({ ...this.state, [event.target.name]: event.target.value });
+
+    const tagsArray = [];
+    const titleArray = [];
+
+    // let words = this.state.tags;
+    // let tags = words.split(',');
+    // tagsArray.push({ tags: tags });
+    titleArray.push(this.state.title);
+    tagsArray.push(this.state.tags);
+    // console.log(titleArray)
+    // console.log(tagsArray)
+    this.saveTitle(titleArray);
+    this.saveTags(tagsArray);
+  };
 
   handleSubmitBtn = (event) => {
     event.preventDefault();
@@ -51,14 +63,19 @@ class NewPosts extends React.Component {
         parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
       }
 
+      const title = window.localStorage.getItem('title');
+      const tags = window.localStorage.getItem('tags');
+      let parsedTitle = JSON.parse(title);
+      let parsedTags = JSON.parse(tags);
+
       axios
         .post(
           '/api/posts',
           {
-            title: 'titleexample',
+            title: parsedTitle,
             body: parsedBodyContent,
             isSolved: false,
-            tag: [],
+            tag: parsedTags,
             commentBody: [],
             commentAuthor: [],
             likeValue: 0,
@@ -77,6 +94,14 @@ class NewPosts extends React.Component {
     } else {
       this.state.editorState = EditorState.createEmpty();
     }
+  };
+
+  saveTitle = (title) => {
+    window.localStorage.setItem('title', JSON.stringify(title));
+  };
+
+  saveTags = (tags) => {
+    window.localStorage.setItem('tags', JSON.stringify(tags));
   };
 
   saveContent = (content) => {
@@ -129,42 +154,52 @@ class NewPosts extends React.Component {
     }
 
     return (
-      <div className='RichEditor-root'>
-        <form>
-        <label name="title" title="title"></label>
-        <input name="title" title="title" value={this.state.title} placeholder="Title" onChange={this.handleInputChange}></input>
-        <br></br>
-        <label name="tags" title="tags"></label>
-        <input name="tags" title="tags" value={this.state.tags} placeholder="Tags" onChange={this.handleInputChange}></input>
-        <hr></hr>
-        </form>
-        <BlockStyleControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineStyleControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
-        <div className={className} onClick={this.focus}>
-          <Editor
-            blockStyleFn={getBlockStyle}
-            customStyleMap={styleMap}
+      <>
+        <div className='RichEditor-root'>
+          <form>
+            <label name='title' title='title'></label>
+            <input
+              name='title'
+              title='title'
+              value={this.state.title}
+              placeholder='Title'
+              onChange={this.handleInputChange}
+            ></input>
+            <br></br>
+            <label name='tags' title='tags'></label>
+            <input
+              name='tags'
+              title='tags'
+              value={this.state.tags}
+              placeholder='Tags'
+              onChange={this.handleInputChange}
+            ></input>
+            <hr></hr>
+          </form>
+          <BlockStyleControls
             editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
-            keyBindingFn={this.mapKeyToEditorCommand}
-            onChange={this.onChange}
-            placeholder='Tell Us About Your Errors...'
-            ref='editor'
-            spellCheck={true}
+            onToggle={this.toggleBlockType}
           />
-        </div>
-        <div>
-          <div>
-            <button onClick={this.handleSubmitBtn}>Submit</button>
+          <InlineStyleControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+          <div className={className} onClick={this.focus}>
+            <Editor
+              blockStyleFn={getBlockStyle}
+              customStyleMap={styleMap}
+              editorState={editorState}
+              handleKeyCommand={this.handleKeyCommand}
+              keyBindingFn={this.mapKeyToEditorCommand}
+              onChange={this.onChange}
+              placeholder='Tell Us About Your Errors...'
+              ref='editor'
+              spellCheck={true}
+            />
           </div>
         </div>
-      </div>
+        <button onClick={this.handleSubmitBtn}>Submit</button>
+      </>
     );
   }
 }
@@ -246,8 +281,14 @@ const BlockStyleControls = (props) => {
 };
 
 var INLINE_STYLES = [
-  { label: <img src="https://img.icons8.com/android/24/000000/bold.png"/>, style: 'BOLD' },
-  { label: <img src="https://img.icons8.com/officexs/16/000000/italy.png"/>, style: 'ITALIC' },
+  {
+    label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
+    style: 'BOLD',
+  },
+  {
+    label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
+    style: 'ITALIC',
+  },
   { label: 'Underline', style: 'UNDERLINE' },
   { label: 'Monospace', style: 'CODE' },
 ];
