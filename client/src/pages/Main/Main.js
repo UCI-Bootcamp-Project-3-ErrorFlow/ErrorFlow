@@ -45,18 +45,9 @@ const Main = () => {
     setPostState({ ...postState, [event.target.name]: event.target.value });
   };
 
-  postState.signOutBtn = (event) => {
-    event.preventDefault();
-    localStorage.removeItem('user');
-    window.location = '/';
-  };
-
   return (
     <>
-      <h1>Main page</h1>
-      <form>
-        <button onClick={postState.signOutBtn}>Sign Out</button>
-      </form>
+      {/* <h1>Main page</h1>
       <form>
         <label htmlFor='title'>
           Title:
@@ -74,13 +65,13 @@ const Main = () => {
             onChange={postState.handleInputNewPost}
             value={postState.body}
           />
-          {/* <TextEditor
+          <TextEditor
             editorState={this.state.editorState}
             onChange={this.onChange}
-          /> */}
+          />
         </label>
         <button onClick={postState.createNewPostBtn}>New Post</button>
-      </form>
+      </form> */}
     </>
   );
 };

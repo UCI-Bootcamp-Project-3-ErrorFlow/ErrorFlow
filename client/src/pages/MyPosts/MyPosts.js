@@ -21,11 +21,11 @@ const MyPosts = () => {
                 // work on this tomorrow *****
             })
             .catch(err => console.error(err))
+            postState.handleViewBtn()
     }
 
 
-    postState.handleViewBtn = (event) => {
-        event.preventDefault();
+    postState.handleViewBtn = () => {
         axios
             .get('/api/users/posts', {
                 headers: {
@@ -43,12 +43,18 @@ const MyPosts = () => {
             });
     };
 
+    // componentDidUpdate(prevProps) {
+    //     // Typical usage (don't forget to compare props):
+    //     if (this.props.userID !== prevProps.userID) {
+    //       this.fetchData(this.props.userID);
+    //     }
+    //   }
 
     return (
         <>
-            <form>
+            <div>
                 <button onClick={postState.handleViewBtn}>View All My Posts</button>
-            </form>
+            </div>
             {/* {postState.users.map((item) => (
           <h1>{item}</h1>
       ))} */}
