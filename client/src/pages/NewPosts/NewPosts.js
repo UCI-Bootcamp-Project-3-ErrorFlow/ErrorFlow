@@ -8,7 +8,7 @@ class NewPosts extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { editorState: EditorState.createEmpty(), savedText: [] };
+    this.state = { editorState: EditorState.createEmpty(), savedText: [], tags: [], title: '' };
 
     this.focus = () => this.refs.editor.focus();
 
@@ -26,8 +26,22 @@ class NewPosts extends React.Component {
     this.toggleInlineStyle = this._toggleInlineStyle.bind(this);
   }
 
+  //for tag and title post info
+  handleInputChange = event => {
+    event.preventDefault()
+    this.setState({ [event.target.name]: event.target.value})
+    console.log("tags: ", this.state.tags, "title: ", this.state.title)
+    const tagsArray = []
+    const titleArray = []
+    tagsArray.push({tags: this.state.tags})
+    titleArray.push({title: this.state.title})
+    console.log(tagsArray)
+    console.log(titleArray)
+  }
+
   handleSubmitBtn = (event) => {
     event.preventDefault();
+
     const content = window.localStorage.getItem('content');
     if (content) {
       let parsedContent = JSON.parse(content);
@@ -116,6 +130,14 @@ class NewPosts extends React.Component {
 
     return (
       <div className='RichEditor-root'>
+        <form>
+        <label name="title" title="title"></label>
+        <input name="title" title="title" value={this.state.title} placeholder="Title" onChange={this.handleInputChange}></input>
+        <br></br>
+        <label name="tags" title="tags"></label>
+        <input name="tags" title="tags" value={this.state.tags} placeholder="Tags" onChange={this.handleInputChange}></input>
+        <hr></hr>
+        </form>
         <BlockStyleControls
           editorState={editorState}
           onToggle={this.toggleBlockType}
@@ -138,9 +160,9 @@ class NewPosts extends React.Component {
           />
         </div>
         <div>
-          <form>
+          <div>
             <button onClick={this.handleSubmitBtn}>Submit</button>
-          </form>
+          </div>
         </div>
       </div>
     );
