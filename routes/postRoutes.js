@@ -5,7 +5,37 @@ const passport = require('passport');
 
 //you need to have to have web-token when you want to see their posts.
 //in the postman, go to header and put authorization as key and jsoned web-token in the value.
-router.get('/posts', passport.authenticate('jwt'), (req, res) => {
+router.get('/posts', (req, res) => {
+  Post.find()
+    .populate('author')
+    .populate('comment')
+    .populate('likes')
+    .then((posts) => res.json(posts))
+    // .then(({ data }) => {
+    //   Post.find().then((posts) => {
+    //     const postsFiltered = data.data.filter((post) => {
+    //       let keep = true;
+    //       posts.forEach((liked) => {
+    //         if (liked.postId === post._id) {
+    //           keep = false;
+    //         }
+    //       });
+    //       return keep;
+    //     });
+    //     res.json(postsFiltered);
+    //   });
+    // })
+
+    .catch((err) => console.error(err));
+});
+
+// router.post('/posts', (req, res) => {
+//   Post.create(req.body)
+//     .then((posts) => res.json(posts))
+//     .catch((err) => console.error(err));
+// });
+
+router.get('/myposts', passport.authenticate('jwt'), (req, res) => {
   Post.find()
     .populate('author')
     .populate('comment')
@@ -14,7 +44,7 @@ router.get('/posts', passport.authenticate('jwt'), (req, res) => {
     .catch((err) => console.error(err));
 });
 
-router.post('/posts', passport.authenticate('jwt'), (req, res) => {
+router.post('/myposts', passport.authenticate('jwt'), (req, res) => {
   Post.create({
     title: req.body.title,
     body: req.body.body,
@@ -44,10 +74,10 @@ router.post('/posts', passport.authenticate('jwt'), (req, res) => {
     .catch((err) => console.error(err));
 });
 
-router.delete('/posts/:id', passport.authenticate('jwt'), (req, res) => {
+router.delete('/myposts/:id', passport.authenticate('jwt'), (req, res) => {
   Post.findByIdAndRemove(req.params.id)
-  .then(() => res.sendStatus(200))
-  .catch(err => console.error(err))
-})
+    .then(() => res.sendStatus(200))
+    .catch((err) => console.error(err));
+});
 
 module.exports = router;

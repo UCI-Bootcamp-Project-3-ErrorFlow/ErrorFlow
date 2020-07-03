@@ -57,7 +57,7 @@ class NewPosts extends React.Component {
 
       axios
         .post(
-          '/api/posts',
+          '/api/myposts',
           {
             title: parsedTitle,
             body: parsedBodyContent,

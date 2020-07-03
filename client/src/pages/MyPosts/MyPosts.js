@@ -9,7 +9,7 @@ const MyPosts = () => {
 
   postState.handleDeletePost = (item) => {
     axios
-      .delete(`/api/posts/${item._id}`, {
+      .delete(`/api/myposts/${item._id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('user')}`,
         },
@@ -52,7 +52,11 @@ const MyPosts = () => {
         <button onClick={postState.handleViewBtn}>View All My Posts</button>
       </div>
       {postState.myPosts.map((item) => (
-        <div key={item._id} style={{ border: '1px solid black' }}>
+        <div key={item._id} style={
+          item.isSolved
+            ? { border: '1px solid green', margin: '5px' }
+            : { border: '1px solid red', margin: '5px' }
+        }>
           <h4>{item.title}</h4>
           <p>{item.body}</p>
           <button onClick={() => postState.handleDeletePost(item)}>
