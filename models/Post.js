@@ -8,6 +8,7 @@ const Post = new Schema({
   commentAuthor: [{ type: String, ref: 'Comment'}],
   likeValue: { type: Number, ref: 'Like' },
   isLiked: { type: Boolean, ref: 'Like'},
+  // postId: String,
   //users who have posts, lets call them author,
   author: {
     type: Schema.Types.ObjectId, //we are building relations here with model called 'User'.
