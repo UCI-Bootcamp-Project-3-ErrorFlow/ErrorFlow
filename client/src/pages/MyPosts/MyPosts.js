@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import PostContext from '../../utils/PostContext'
+import PostAPI from '../../utils/PostAPI'
 import Switch from '../../components/Switch'
 import '../../components/Switch/Switch.css'
-import { post } from '../../../../routes/postRoutes';
+
+const {
+  // getPost,
+  getMyPost,
+  // addPost,
+  updatePost,
+  deletePost
+} = PostAPI
 
 const MyPosts = () => {
   const [postState, setPostState] = useState({
@@ -11,84 +19,78 @@ const MyPosts = () => {
 
   })
 
-  postState.handleDeletePost = (item) => {
-    axios
-      .delete(`/api/myposts/${item._id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('user')}`,
-        },
-      })
+  postState.handleDeletePost = item => {
+    deletePost(item._id)
       .then(() => {
-        const items = JSON.parse(JSON.stringify(postState.item));
+        const items = JSON.parse(JSON.stringify(postState.posts))
         const itemsFiltered = items.filter(
           (MyPosts) => MyPosts._id !== item._id
-        );
-        setPostState({ ...postState, myPosts: itemsFiltered });
-        // work on this tomorrow *****
+        )
+        setPostState({ ...postState, myPosts: itemsFiltered })
       })
-      .catch((err) => console.error(err));
-    postState.handleViewBtn();
-  };
+      .catch((err) => console.error(err))
+    // postState.handleViewBtn();
+  }
 
-  postState.handleViewBtn = () => {
-    axios
-      .get('/api/users/posts', {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('user')}`,
-        },
-      })
-      .then(({ data }) => {
-        console.log(data);
-        setPostState({
-          ...postState,
-          myPosts: data.posts,
-          users: data.username,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // postState.handleViewBtn = () => {
+  //   getMyPost() ({
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('user')}`,
+  //       },
+  //     })
+  //     .then(({ data }) => {
+  //       console.log(data);
+  //       setPostState({
+  //         ...postState,
+  //         myPosts: data.posts,
+  //         users: data.username,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
-//   postState.handleToggle = (id, isSolved) => {
-//     axios
-//     .put(`/api/myposts/${id}`, isSolved), {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem('user')}`, }
-//         })
-//     .then(() => {
-//         isSolved: !isSolved
-//         const posts = JSON.parse(JSON.stringify(postState.posts))
-//         posts.forEach(solved => {
-//             if (solved._id === id) {
-//                 post.isSolved = !isSolved
-//             }
-//         })
-//         setPostState({...postState, posts})
-//     })
-//     .catch((err) => {
-//         console.log(err)
-//     }
-//         postState.handleToggle =
-//         .then(({ data }) => {
-//             console.log(data);
-//             setPostState({
-//               ...postState,
-//               isSolved: true,
-//               myPosts: data.posts,
-//               users: data.username,
-//             });
-//           })
-//           .catch((err) => {
-//             console.log(err);
-//           });
-//       };
+  postState.handleToggle = (id, isSolved) => {
+    updatePost(id, {isSolved: !isSolved})
+    .then(() => {
+        const posts = JSON.parse(JSON.stringify(postState.posts))
+        posts.forEach(solved => {
+            if (solved._id === id) {
+                solved.isSolved = !isSolved
+            }
+        })
+        setPostState({...postState, posts})
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+        // postState.handleToggle =
+        // .then(({ data }) => {
+        //     console.log(data);
+        //     setPostState({
+        //       ...postState,
+        //       isSolved: true,
+        //       myPosts: data.posts,
+        //       users: data.username,
+        //     });
+        //   })
+        //   .catch((err) => {
+        //     console.log(err);
+      }
+
+      useEffect(() => {
+        getMyPost()
+          .then(({ data }) => {
+            console.log(data)
+            setPostState({ ...postState, myPosts: data.posts })
+          })
+          .catch(err => console.error(err))
+      }, [])
 
   return (
     <>
-      <div>
-        <button onClick={postState.handleViewBtn}>View All My Posts</button>
-      </div>
+    <PostContext.Provider value={postState}>
       {postState.myPosts.map((item) => (
         <div key={item._id} style={
           item.isSolved
@@ -106,6 +108,7 @@ const MyPosts = () => {
           </button>
         </div>
       ))}
+      </PostContext.Provider>
     </>
   );
 };
