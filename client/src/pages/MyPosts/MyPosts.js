@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Switch from '../../components/Switch'
+import '../../components/Switch/Switch.css'
+import { post } from '../../../../routes/postRoutes';
 
 const MyPosts = () => {
   const [postState, setPostState] = useState({
     myPosts: [],
     users: {},
-  });
+
+  })
 
   postState.handleDeletePost = (item) => {
     axios
@@ -46,6 +50,40 @@ const MyPosts = () => {
       });
   };
 
+//   postState.handleToggle = (id, isSolved) => {
+//     axios
+//     .put(`/api/myposts/${id}`, isSolved), {
+//         headers: {
+//           Authorization: `Bearer ${localStorage.getItem('user')}`, }
+//         })
+//     .then(() => {
+//         isSolved: !isSolved
+//         const posts = JSON.parse(JSON.stringify(postState.posts))
+//         posts.forEach(solved => {
+//             if (solved._id === id) {
+//                 post.isSolved = !isSolved
+//             }
+//         })
+//         setPostState({...postState, posts})
+//     })
+//     .catch((err) => {
+//         console.log(err)
+//     }
+//         postState.handleToggle =
+//         .then(({ data }) => {
+//             console.log(data);
+//             setPostState({
+//               ...postState,
+//               isSolved: true,
+//               myPosts: data.posts,
+//               users: data.username,
+//             });
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//       };
+
   return (
     <>
       <div>
@@ -59,7 +97,11 @@ const MyPosts = () => {
         }>
           <h4>{item.title}</h4>
           <p>{item.body}</p>
-          <button onClick={() => postState.handleDeletePost(item)}>
+          <Switch
+            id={item._id}
+            isOn={item.isSolved}
+            handleToggle={(item) => postState.handleToggle(item._id, item.isSolved)} />
+          <button onClick={(item) => postState.handleDeletePost(item)}>
             Delete
           </button>
         </div>
