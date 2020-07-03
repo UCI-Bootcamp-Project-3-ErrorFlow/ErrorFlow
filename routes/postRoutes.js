@@ -80,4 +80,10 @@ router.delete('/myposts/:id', passport.authenticate('jwt'), (req, res) => {
     .catch((err) => console.error(err));
 });
 
+router.put('/myposts/:id',  passport.authenticate('jwt'), (req, res) => { 
+  Post.findByIdAndUpdate(req.params.id, { $set: req.body })
+    .then(() => res.sendStatus(200))
+    .catch(err => console.error(err))
+})
+
 module.exports = router;
