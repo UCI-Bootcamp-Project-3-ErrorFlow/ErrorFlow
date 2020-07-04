@@ -11,29 +11,8 @@ router.get('/posts', (req, res) => {
     .populate('comment')
     .populate('likes')
     .then((posts) => res.json(posts))
-    // .then(({ data }) => {
-    //   Post.find().then((posts) => {
-    //     const postsFiltered = data.data.filter((post) => {
-    //       let keep = true;
-    //       posts.forEach((liked) => {
-    //         if (liked.postId === post._id) {
-    //           keep = false;
-    //         }
-    //       });
-    //       return keep;
-    //     });
-    //     res.json(postsFiltered);
-    //   });
-    // })
-
     .catch((err) => console.error(err));
 });
-
-// router.post('/posts', (req, res) => {
-//   Post.create(req.body)
-//     .then((posts) => res.json(posts))
-//     .catch((err) => console.error(err));
-// });
 
 router.get('/myposts', passport.authenticate('jwt'), (req, res) => {
   Post.find()
@@ -74,16 +53,16 @@ router.post('/myposts', passport.authenticate('jwt'), (req, res) => {
     .catch((err) => console.error(err));
 });
 
+router.put('/myposts/:id', passport.authenticate('jwt'), (req, res) => {
+  Post.findByIdAndUpdate(req.params.id, { $set: req.body })
+    .then(() => res.sendStatus(200))
+    .catch((err) => console.error(err));
+});
+
 router.delete('/myposts/:id', passport.authenticate('jwt'), (req, res) => {
   Post.findByIdAndRemove(req.params.id)
     .then(() => res.sendStatus(200))
     .catch((err) => console.error(err));
 });
-
-router.put('/myposts/:id',  passport.authenticate('jwt'), (req, res) => { 
-  Post.findByIdAndUpdate(req.params.id, { $set: req.body })
-    .then(() => res.sendStatus(200))
-    .catch(err => console.error(err))
-})
 
 module.exports = router;
