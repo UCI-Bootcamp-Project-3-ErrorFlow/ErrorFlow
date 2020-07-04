@@ -29,7 +29,7 @@ router.post('/myposts', passport.authenticate('jwt'), (req, res) => {
     body: req.body.body,
     isSolved: req.body.isSolved,
     likeValue: req.body.likeValue,
-    isLiked: false,
+    isLiked: req.body.isLiked,
     commentBody: req.body.commentBody,
     commentAuthor: req.body.commentAuthor,
     comment: req.body.comment,
