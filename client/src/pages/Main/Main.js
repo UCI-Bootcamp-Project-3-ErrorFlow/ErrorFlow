@@ -14,6 +14,7 @@ const {
 const Main = () => {
   const [postState, setPostState] = useState({
     comments: '',
+    likeCount: 0,
     posts: [],
   });
 
@@ -33,8 +34,36 @@ const Main = () => {
     //   .catch((err) => console.error(err));
   };
 
-  postState.handleUpdateLike = () => {
-    console.log('i like it');
+  postState.handleUpdateLike = (item, isLiked) => {
+    if (isLiked === false) {
+      updatePost(item._id, {
+        isLiked: !isLiked,
+        likeValue: item.likeValue + 1,
+      })
+        .then(() => {
+          const postsCopy = JSON.parse(JSON.stringify(postState.posts));
+          setPostState({
+            ...postState,
+            posts: postsCopy,
+            likeCount: postsCopy.likeValue,
+          });
+        })
+        .catch((err) => console.error(err));
+    } else if (item.isLiked === true) {
+      updatePost(item._id, {
+        isLiked: !isLiked,
+        likeValue: item.likeValue - 1,
+      })
+        .then(() => {
+          const postsCopy = JSON.parse(JSON.stringify(postState.posts));
+          setPostState({
+            ...postState,
+            posts: postsCopy,
+            likeCount: postsCopy.likeValue,
+          });
+        })
+        .catch((err) => console.error(err));
+    }
   };
 
   useEffect(() => {
@@ -79,12 +108,15 @@ const Main = () => {
                 >
                   add comment
                 </button>
-                <span
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => postState.handleUpdateLike()}
+                <button
+                  // {/* style={{ cursor: 'pointer' }} */}
+                  value={item.isLiked}
+                  name={item.isLiked ? '👎' : '👍'}
+                  onClick={() => postState.handleUpdateLike(item, item.isLiked)}
                 >
-                  👍
-                </span>
+                  {item.isLiked ? '👎' : '👍'}
+                  {item.likeValue}
+                </button>
               </form>
             </div>
           ))}
