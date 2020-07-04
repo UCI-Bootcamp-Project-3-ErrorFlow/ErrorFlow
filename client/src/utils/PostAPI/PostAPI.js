@@ -1,23 +1,26 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const PostAPI = {
   getPost: () => axios.get('/api/posts'),
-  getMyPost: () => axios.get('/api/users/posts', {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('user')}`,
-    },
-  }),
-  addPost: post => axios.post('/api/myposts', post),
-  updatePost: (id, updates) => axios.put(`/api/myposts/${id}`, updates, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('user')}`,
-    },
-  }),
-  deletePost: (item) => axios.put(`/api/myposts/${item._id}`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem('user')}`,
-    },
-  })
-}
+  getMyPost: () =>
+    axios.get('/api/users/posts', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('user')}`,
+      },
+    }),
+  addPost: (post) => axios.post('/api/myposts', post),
+  deletePost: (id) =>
+    axios.delete(`/api/myposts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('user')}`,
+      },
+    }),
+  updatePost: (id, updates) =>
+    axios.put(`/api/myposts/${id}`, updates, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('user')}`,
+      },
+    }),
+};
 
-export default PostAPI
+export default PostAPI;
