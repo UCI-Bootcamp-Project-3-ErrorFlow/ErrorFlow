@@ -1,74 +1,97 @@
-import React, { useState } from 'react';
-import PostContext from '../../utils/PostContext'
-import PostAPI from '../../utils/PostAPI'
+import React, { useState, useEffect } from 'react';
+import PostContext from '../../utils/PostContext';
+import PostAPI from '../../utils/PostAPI';
 
 const {
   getPost,
   // getMyPost,
   // addPost,
-  // updatePost,
+  updatePost,
   // deletePost
-} = PostAPI
+} = PostAPI;
 
 //if you want to render as we go into the page.
-class Main extends React.Component {
-  state = {
-    username: '',
-    isLoading: true,
-    isSolved: Boolean,
+const Main = () => {
+  const [postState, setPostState] = useState({
+    comments: '',
     posts: [],
+  });
+
+  postState.handleInputChange = (event) => {
+    setPostState({ ...postState, [event.target.name]: event.target.value });
   };
 
-  // postState.handleInputNewPost = (event) => {
-  //   setPostState({ ...postState, [event.target.name]: event.target.value });
-  // };
+  postState.handleUpdateComent = (item, comment) => {
+    console.log(`${item} and ${comment}`);
+    // updatePost(item._id, {
+    //   commentBody: comment,
+    // })
+    //   .then(() => {
+    //     const postsCopy = JSON.parse(JSON.stringify(postState.posts));
+    //     setPostState({ ...postState, posts: postsCopy });
+    //   })
+    //   .catch((err) => console.error(err));
+  };
 
-  renderAllPosts = async () => {
-    // event.preventDefault();
-    await getPost()
+  postState.handleUpdateLike = () => {
+    console.log('i like it');
+  };
+
+  useEffect(() => {
+    getPost()
       .then(({ data }) => {
         console.log(data);
-        this.setState({ posts: data, isLoading: false });
+        setPostState({ ...postState, posts: data });
       })
       .catch((err) => console.error(err));
-  };
+  }, []);
 
-  componentDidMount() {
-    this.renderAllPosts();
-  }
-  render() {
-    const { isLoading, posts } = this.state;
-    return (
-      <>
-      <PostContext.Provider value={this.state.isSolved}>
-        <section>
-          <h1>view all users posts</h1>
-          {isLoading ? (
-            <div>
-              <span>loading...</span>
-            </div>
-          ) : (
-            <div>
-              {posts.map((item) => (
-                <div
-                  key={item._id}
-                  style={
-                    item.isSolved
-                      ? { border: '1px solid green', margin: '5px' }
-                      : { border: '1px solid red', margin: '5px' }
+  return (
+    <>
+      <PostContext.Provider value={postState}>
+        <h1>view all users posts</h1>
+        <div>
+          {postState.posts.map((item) => (
+            <div
+              key={item._id}
+              style={
+                item.isSolved
+                  ? { border: '1px solid green', margin: '5px' }
+                  : { border: '1px solid red', margin: '5px' }
+              }
+            >
+              <h2>{item.title}</h2>
+              <h4>{`written by ${item.author.username}`}</h4>
+              <span>{item.body}</span>
+              <form>
+                <input
+                  type='text'
+                  name='comments'
+                  label='comments'
+                  value={postState.comments}
+                  onChange={postState.handleInputChange}
+                  placeholder={'Add new comments'}
+                ></input>
+                <button
+                  onClick={() =>
+                    postState.handleUpdateComent(item, postState.comments)
                   }
                 >
-                   <h2>{item.title}</h2>
-         <h4>{`written by ${item.author.username}`}</h4>
-                  <span>{item.body}</span>
-                </div>
-              ))}
+                  add comment
+                </button>
+                <span
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => postState.handleUpdateLike()}
+                >
+                  👍
+                </span>
+              </form>
             </div>
-          )}
-        </section>
-        </PostContext.Provider>
-      </>
-    );
-  }
-}
+          ))}
+        </div>
+      </PostContext.Provider>
+    </>
+  );
+};
+
 export default Main;
