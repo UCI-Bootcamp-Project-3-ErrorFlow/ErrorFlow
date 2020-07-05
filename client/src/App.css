@@ -1,0 +1,17 @@
+@import '~antd/dist/antd.css';
+
+.App { 
+    text-align: center;
+
+   
+
+    color: beige;
+}
+.navBarFont {
+     font-size: larger;
+}
+
+/* .signOutBtn {
+ 
+} */
+
