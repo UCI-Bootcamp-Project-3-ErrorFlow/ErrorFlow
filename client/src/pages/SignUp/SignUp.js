@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Layout } from 'antd';
+const { Header, Footer, Sider, Content } = Layout;
 
 const SignUp = () => {
   const [userState, setUserState] = useState({
@@ -80,6 +82,7 @@ const SignUp = () => {
 
   return (
     <>
+    <Content>
       <h1>Sign In page</h1>
       {localStorage.getItem('user') ? (
         <div>you are already signed up!</div>
@@ -145,6 +148,8 @@ const SignUp = () => {
         />
         <button onClick={userState.handleSignUpBtn}>Submit</button>
       </form>
+      </Content>
+        <Footer>Footer</Footer>
     </>
   );
 };
