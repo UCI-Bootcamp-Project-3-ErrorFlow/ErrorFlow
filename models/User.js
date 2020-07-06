@@ -11,12 +11,12 @@ const User = new Schema({
       ref: 'Post',
     },
   ],
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Comment',
-    },
-  ],
+  // comments: [
+  //   {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'Comment',
+  //   },
+  // ],
 });
 
 User.plugin(require('passport-local-mongoose'));
