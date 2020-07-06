@@ -62,10 +62,11 @@ class NewPosts extends React.Component {
             title: parsedTitle,
             body: parsedBodyContent,
             isSolved: false,
-            commentBody: [],
-            commentAuthor: [],
             likeValue: 0,
             isLiked: false,
+            comments: [],
+            // commentBody: [],
+            // commentAuthor: [],
           },
           {
             headers: {
@@ -215,13 +216,13 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-  { label: 'H1', style: 'header-one' },
-  { label: 'H2', style: 'header-two' },
-  { label: 'H3', style: 'header-three' },
-  { label: 'H4', style: 'header-four' },
-  { label: 'Blockquote', style: 'blockquote' },
-  { label: 'UL', style: 'unordered-list-item' },
-  { label: 'OL', style: 'ordered-list-item' },
+  // { label: 'H1', style: 'header-one' },
+  // { label: 'H2', style: 'header-two' },
+  // { label: 'H3', style: 'header-three' },
+  // { label: 'H4', style: 'header-four' },
+  // { label: 'Blockquote', style: 'blockquote' },
+  // { label: 'UL', style: 'unordered-list-item' },
+  // { label: 'OL', style: 'ordered-list-item' },
   { label: 'Code Block', style: 'code-block' },
 ];
 
@@ -248,17 +249,17 @@ const BlockStyleControls = (props) => {
   );
 };
 
-var INLINE_STYLES = [
-  {
-    label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
-    style: 'BOLD',
-  },
-  {
-    label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
-    style: 'ITALIC',
-  },
-  { label: 'Underline', style: 'UNDERLINE' },
-  { label: 'Monospace', style: 'CODE' },
+var INLINE_STYLES = [{}
+//   {
+//     label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
+//     style: 'BOLD',
+//   },
+//   {
+//     label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
+//     style: 'ITALIC',
+//   },
+//   { label: 'Underline', style: 'UNDERLINE' },
+//   { label: 'Monospace', style: 'CODE' },
 ];
 
 const InlineStyleControls = (props) => {
