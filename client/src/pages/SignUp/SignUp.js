@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { Layout, Card} from 'antd';
 import axios from 'axios';
+
+const { Header, Footer, Sider, Content } = Layout;
 
 const SignUp = () => {
   const [userState, setUserState] = useState({
@@ -82,71 +85,82 @@ const SignUp = () => {
 
   return (
     <>
-      <h1>Sign In page</h1>
+    <Content>
+      
       {localStorage.getItem('user') ? (
-        <div>you are already signed up!</div>
+        window.location= '/Main'
       ) : (
-        <div>
+        <Card>
+          <h3>Sign In</h3>
           <form>
-            <label htmlFor='username'>
-              Username:
               <input
+                placeholder="Username"
                 type='text'
                 name='username'
                 onChange={userState.handleInputSignIn}
                 value={userState.username}
               />
-            </label>
-            <label htmlFor='username'>
-              Password:
+              <br></br>
               <input
+                placeholder="Password"
                 type='password'
                 name='password'
                 onChange={userState.handleInputSignIn}
                 value={userState.password}
               />
-            </label>
-            <button onClick={userState.handleSignInBtn}>Submit</button>
+          <br></br>
+          <br></br>
+            <button onClick={userState.handleSignInBtn}>Sign In</button>
           </form>
-        </div>
+        </Card>
       )}
-
-      <h3>Sign Up Form</h3>
+      
+    </Content>
+    <Content>
+      <Card>
+      <h3>Sign Up</h3>
       <form>
-        <label htmlFor='name'>Name</label>
         <input
+         placeholder="Name"
           type='text'
           name='name'
           label='name'
           value={userState.name}
           onChange={userState.handleInputSignUp}
         />
-        <label htmlFor='email'>Email</label>
+        <br></br>
         <input
+          placeholder="Email"
           type='text'
           name='email'
           label='email'
           value={userState.email}
           onChange={userState.handleInputSignUp}
         />
-        <label htmlFor='newUsername'>Username</label>
+        <br></br>
         <input
+         placeholder="Username"
           type='text'
           name='newUsername'
           label='newUsername'
           value={userState.newUsername}
           onChange={userState.handleInputSignUp}
         />
-        <label htmlFor='newPassword'>Password</label>
+        <br></br>
         <input
+          placeholder="Password"
           type='password'
           name='newPassword'
           label='newPassword'
           value={userState.newPassword}
           onChange={userState.handleInputSignUp}
         />
-        <button onClick={userState.handleSignUpBtn}>Submit</button>
+        <br></br>
+        <br></br>
+        <button onClick={userState.handleSignUpBtn}>Sign Up</button>
       </form>
+      </Card>
+      </Content>
     </>
   );
 };

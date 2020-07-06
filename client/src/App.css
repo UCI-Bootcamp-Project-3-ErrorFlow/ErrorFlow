@@ -1,0 +1,17 @@
+.container{
+    display: flex;
+}
+
+.navBar{
+    justify-items: baseline;
+    justify-content: space-around;
+}
+.navBtns{
+    margin: 5px;
+}
+.navHeader{
+    color: white;
+    display: inline-block;
+    position: absolute;
+    right: 55px;
+}
