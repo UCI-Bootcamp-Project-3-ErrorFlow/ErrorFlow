@@ -17,12 +17,13 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const ENDPOINT = 'localhost:3001';
+  const ENDPOINT = io.connect({path:'CAH/socket.io'})
+  // 'localhost:3001';
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
     console.log(name, room);
-    socket = io(ENDPOINT);
+    socket = (ENDPOINT);
 
     setRoom(room);
     setName(name);
