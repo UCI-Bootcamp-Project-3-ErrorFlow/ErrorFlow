@@ -23,7 +23,6 @@ class NewPosts extends React.Component {
       });
     };
 
-
     this.handleKeyCommand = this._handleKeyCommand.bind(this);
     this.mapKeyToEditorCommand = this._mapKeyToEditorCommand.bind(this);
     this.toggleBlockType = this._toggleBlockType.bind(this);
@@ -45,13 +44,13 @@ class NewPosts extends React.Component {
 
     const content = window.localStorage.getItem('content');
 
-      if (content) {
-        let parsedContent = JSON.parse(content);
-        let parsedBodyContent = '';
-        for (const prop in parsedContent.blockMap) {
-          console.log(parsedContent.blockMap[prop].text);
-          parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
-        }
+    if (content) {
+      let parsedContent = JSON.parse(content);
+      let parsedBodyContent = '';
+      for (const prop in parsedContent.blockMap) {
+        console.log(parsedContent.blockMap[prop].text);
+        parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
+      }
 
       let parsedTitle = this.state.title;
 
@@ -81,6 +80,7 @@ class NewPosts extends React.Component {
     } else {
       this.state.editorState = EditorState.createEmpty();
     }
+    EditorState.createEmpty();
     this.setState({
       title: '',
     });
@@ -249,17 +249,18 @@ const BlockStyleControls = (props) => {
   );
 };
 
-var INLINE_STYLES = [{}
-//   {
-//     label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
-//     style: 'BOLD',
-//   },
-//   {
-//     label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
-//     style: 'ITALIC',
-//   },
-//   { label: 'Underline', style: 'UNDERLINE' },
-//   { label: 'Monospace', style: 'CODE' },
+var INLINE_STYLES = [
+  {},
+  //   {
+  //     label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
+  //     style: 'BOLD',
+  //   },
+  //   {
+  //     label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
+  //     style: 'ITALIC',
+  //   },
+  //   { label: 'Underline', style: 'UNDERLINE' },
+  //   { label: 'Monospace', style: 'CODE' },
 ];
 
 const InlineStyleControls = (props) => {
