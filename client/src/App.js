@@ -25,7 +25,7 @@ function App() {
   return (
     <>
       <Router>
-        <div classname="container">
+        <div className="container">
           <Layout>
             <Header className="navBar">
                 <Button className="navBtns"><Link to='/'>Sign Up</Link></Button>
