@@ -62,6 +62,7 @@ const SignUp = () => {
 
   userState.handleSignInBtn = (event) => {
     event.preventDefault();
+    localStorage.setItem('username', userState.username);
     axios
       .post('/api/users/login', {
         username: userState.username,
@@ -69,6 +70,7 @@ const SignUp = () => {
       })
       .then(({ data }) => {
         if (data) {
+          
           localStorage.setItem('user', data);
           window.location = '/Main';
         } else {
