@@ -80,7 +80,7 @@ class NewPosts extends React.Component {
     } else {
       this.state.editorState = EditorState.createEmpty();
     }
-    EditorState.createEmpty();
+    this.state.editorState = EditorState.createEmpty();
     this.setState({
       title: '',
     });

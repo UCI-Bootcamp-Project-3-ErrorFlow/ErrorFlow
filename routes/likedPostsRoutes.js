@@ -1,25 +1,25 @@
 const router = require('express').Router();
 const { Post } = require('../models')
 
-router.get('/posts/:like', (req, res) => {
-    Post.findById(req.params.like._id)
-    .then(({ data }) => {
-      Post.find()
-        .then(posts => {
-          const postsFiltered = data.data.filter(post => {
-            let keep = true
-            posts.forEach(liked => {
-              if (liked.gifId === gif.id) {
-                keep = false
-              }
-            })
-            return keep
-          })
-          res.json(postsFiltered)
-        })
-    })
-    .catch(err => console.error(err))
-})
+// router.get('/posts/:like', (req, res) => {
+//     Post.findById(req.params.like._id)
+//     .then(({ data }) => {
+//       Post.find()
+//         .then(posts => {
+//           const postsFiltered = data.data.filter(post => {
+//             let keep = true
+//             posts.forEach(liked => {
+//               if (liked.gifId === gif.id) {
+//                 keep = false
+//               }
+//             })
+//             return keep
+//           })
+//           res.json(postsFiltered)
+//         })
+//     })
+//     .catch(err => console.error(err))
+// })
 
 
 
