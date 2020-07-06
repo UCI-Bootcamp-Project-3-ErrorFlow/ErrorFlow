@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
 import PostAPI from '../../utils/PostAPI';
+import CommentContext from '../../utils/CommentContext'
 import axios from 'axios';
+import './Main.css'
 // import Join from '../../components/Join'
 // import Chat from '../../components/Chat'
+
+const { Header, Footer, Sider, Content } = Layout;
 
 const {
   getPost,
@@ -60,7 +65,15 @@ const Main = () => {
         }
       )
       .then(({ data }) => {
-        console.log(data);
+        getComment()
+        .then(({ data }) => {
+          console.log(data);
+          setCommentState({ ...commentState, comments: data, });
+        })
+        .catch((err) => console.error(err));
+        // console.log([data]);
+        // const newCommentsArray = [data]
+        // setCommentState({ ...commentState, comments: newCommentsArray });
       })
       .catch((err) => console.error(err));
   };
@@ -114,9 +127,12 @@ const Main = () => {
 
   return (
     <>
+    
+      
+      <Layout>
       <PostContext.Provider value={postState}>
+        <Content>
         <h1>view all users posts</h1>
-        <div>
           {postState.posts.map((item) => (
             <div
               key={item._id}
@@ -131,7 +147,7 @@ const Main = () => {
               <span>{item.body}</span>
               <div>
                 <form>
-                  <button
+                  <Button
                     // style={{ cursor: 'pointer' }}
                     value={item.isLiked}
                     name={item.isLiked ? '👎' : '👍'}
@@ -140,11 +156,15 @@ const Main = () => {
                     }
                   >
                     {`👍 ${item.likeValue}`}
-                  </button>
+                  </Button>
                 </form>
               </div>
             </div>
           ))}
+          </Content>
+          </PostContext.Provider>
+          <CommentContext.Provider value={commentState}>
+          <Sider className="messageFeed">
           <input
             type='comment'
             name='comment'
@@ -155,18 +175,22 @@ const Main = () => {
           <div>
             <button onClick={commentState.handleAddComment}>Submit</button>
             {commentState.comments.map((comment) => (
-              <div>
-                <p>{comment.commentBody}</p>
-                <button
+                <Card className="commentCard">
+                  <p>{comment.commentBody}</p>
+                <Button 
+                  className="commentBtn"
                   onClick={() => commentState.handleDeleteComment(comment._id)}
                 >
-                  Delete
-                </button>
-              </div>
+                  🗑
+                </Button>
+                </Card>
             ))}
           </div>
-        </div>
-      </PostContext.Provider>
+          </Sider>
+          </CommentContext.Provider>
+        </Layout>
+      
+    
     </>
   );
 };
