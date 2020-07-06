@@ -1,71 +1,57 @@
-import React, { useState } from 'react';
-// import Posts from '../../components/Posts';
-// import PostContext from '../../utils/PostContext';
+import React, { useState, useEffect } from 'react';
+import PostContext from '../../utils/PostContext';
+import PostAPI from '../../utils/PostAPI';
 import axios from 'axios';
-// import { post } from '../../../../routes';
-import TextEditor from '../../components/TextEditor';
+// import Join from '../../components/Join'
+// import Chat from '../../components/Chat'
 
+const {
+  getPost,
+  getComment,
+  // getMyPost,
+  // addPost,
+  updatePost,
+  // deletePost
+  deleteComment,
+} = PostAPI;
+
+//if you want to render as we go into the page.
 const Main = () => {
   const [postState, setPostState] = useState({
-    username: '',
-    title: '',
-    body: '',
-    tag:'',
-    // multerImage: '',
-    isSolved: Boolean,
+    likeCount: 0,
     posts: [],
   });
 
-  // postState.uploadImage = (e, method) => {
-  //   console.log(e.target.files[0]);
-  //   let imageEvent = e.target.files[0];
-  //   let imageFormObj = {imageName:imageEvent.name}
-  //     // imageFormObj.append('imageName', 'multer-image' + Date.now());
-  
-  //   setPostState({
-  //     ...postState,
-  //     multerImage: URL.createObjectURL(imageEvent),
-  //   });
-
-  //   axios
-  //     .post('/api/image/uploadmulter', imageFormObj)
-  //     .then(({ data }) => {
-  //       if (data.success) {
-  //         console.log(data)
-  //         console.log('successfully uploaded image');
-  //         postState.setDefaultImage('multer');
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       postState.setDefaultImage('multer');
-  //     });
-
-  //   postState.setDefaultImage = (uploadType) => {
-  //     if (uploadType === 'multer') {
-  //       setPostState({
-  //         ...postState,
-  //         multerImage: URL.createObjectURL(imageEvent),
-  //       });
-  //     }
-  //   };
-  // };
-
-  postState.createNewPostBtn = (event) => {
-    event.preventDefault();
-    
-    setPostState({ ...postState, title: '', body: ''
-    // , multerImage: '' 
+  const [commentState, setCommentState] = useState({
+    comment: '',
+    comments: [],
   });
+
+  commentState.handleInputChange = (event) => {
+    setCommentState({
+      ...commentState,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  commentState.handleDeleteComment = (id) => {
+    deleteComment(id)
+      .then(() => {
+        const commentCopy = JSON.parse(JSON.stringify(commentState.comments));
+        const itemsFiltered = commentCopy.filter(
+          (comment) => comment._id !== id
+        );
+        setCommentState({ ...commentState, comments: itemsFiltered });
+      })
+      .catch((err) => console.error(err));
+  };
+
+  commentState.handleAddComment = () => {
     axios
       .post(
-        '/api/posts',
+        '/api/mycomments',
         {
-          title: postState.title,
-          body: postState.body,
-          // image: postState.multerImage,
-          isSolved: false,
-          tag:postState.tag,
+          commentBody: commentState.comment,
         },
         {
           headers: {
@@ -79,51 +65,108 @@ const Main = () => {
       .catch((err) => console.error(err));
   };
 
-  postState.handleInputNewPost = (event) => {
-    setPostState({ ...postState, [event.target.name]: event.target.value });
+  postState.handleUpdateLike = (item, isLiked) => {
+    if (isLiked === false) {
+      updatePost(item._id, {
+        isLiked: !isLiked,
+        likeValue: item.likeValue + 1,
+      })
+        .then(() => {
+          const postsCopy = JSON.parse(JSON.stringify(postState.posts));
+          setPostState({
+            ...postState,
+            posts: postsCopy,
+            likeCount: postsCopy.likeValue,
+          });
+        })
+        .catch((err) => console.error(err));
+    } else if (item.isLiked === true) {
+      updatePost(item._id, {
+        isLiked: !isLiked,
+        likeValue: item.likeValue - 1,
+      })
+        .then(() => {
+          const postsCopy = JSON.parse(JSON.stringify(postState.posts));
+          setPostState({
+            ...postState,
+            posts: postsCopy,
+            likeCount: postsCopy.likeValue,
+          });
+        })
+        .catch((err) => console.error(err));
+    }
   };
 
-  postState.signOutBtn = (event) => {
-    event.preventDefault();
-    localStorage.removeItem('user');
-    window.location = '/';
-  };
+  useEffect(() => {
+    getPost()
+      .then(({ data }) => {
+        console.log(data);
+        setPostState({ ...postState, posts: data });
+      })
+      .catch((err) => console.error(err));
+    getComment()
+      .then(({ data }) => {
+        console.log(data);
+        setCommentState({ ...commentState, comments: data });
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <>
-      <h1>Main page</h1>
-      <form>
-        <button onClick={postState.signOutBtn}>Sign Out</button>
-      </form>
-      <form>
-        <label htmlFor='title'>
-          Title:
+      <PostContext.Provider value={postState}>
+        <h1>view all users posts</h1>
+        <div>
+          {postState.posts.map((item) => (
+            <div
+              key={item._id}
+              style={
+                item.isSolved
+                  ? { border: '1px solid green', margin: '5px' }
+                  : { border: '1px solid red', margin: '5px' }
+              }
+            >
+              <h2>{item.title}</h2>
+              <h4>{`written by ${item.author.username}`}</h4>
+              <span>{item.body}</span>
+              <div>
+                <form>
+                  <button
+                    // style={{ cursor: 'pointer' }}
+                    value={item.isLiked}
+                    name={item.isLiked ? '👎' : '👍'}
+                    onClick={() =>
+                      postState.handleUpdateLike(item, item.isLiked)
+                    }
+                  >
+                    {`👍 ${item.likeValue}`}
+                  </button>
+                </form>
+              </div>
+            </div>
+          ))}
           <input
-            type='text'
-            name='title'
-            onChange={postState.handleInputNewPost}
-            value={postState.title}
+            type='comment'
+            name='comment'
+            label='comment'
+            value={commentState.comment}
+            onChange={commentState.handleInputChange}
           />
-        </label>
-
-        {/* <input
-          type='file'
-          onChange={(e) => postState.uploadImage(e, 'multer')}
-        ></input>
-        <img src={postState.multerImage} alt='image' /> */}
-
-        <label htmlFor='body'>
-          Description:
-          <textarea
-            name='body'
-            onChange={postState.handleInputNewPost}
-            value={postState.body}
-          />
-        </label>
-        <button onClick={postState.createNewPostBtn}>New Post</button>
-      </form>
-      
-      <TextEditor/>
+          <div>
+            <button onClick={commentState.handleAddComment}>Submit</button>
+            {commentState.comments.map((comment) => (
+              <div>
+                <p>{comment.commentBody}</p>
+                <button
+                  onClick={() => commentState.handleDeleteComment(comment._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      </PostContext.Provider>
     </>
   );
 };

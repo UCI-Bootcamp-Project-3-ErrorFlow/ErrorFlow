@@ -50,10 +50,19 @@ const SignUp = () => {
         })
         .catch((err) => console.error(err));
     }
+    setUserState({
+      name: '',
+      username: '',
+      password: '',
+      newUsername: '',
+      newPassword: '',
+      email: '',
+    });
   };
 
   userState.handleSignInBtn = (event) => {
     event.preventDefault();
+    localStorage.setItem('username', userState.username);
     axios
       .post('/api/users/login', {
         username: userState.username,
@@ -61,6 +70,7 @@ const SignUp = () => {
       })
       .then(({ data }) => {
         if (data) {
+          
           localStorage.setItem('user', data);
           window.location = '/Main';
         } else {
@@ -73,29 +83,33 @@ const SignUp = () => {
   return (
     <>
       <h1>Sign In page</h1>
-      <div>
-        <form>
-          <label htmlFor='username'>
-            Username:
-            <input
-              type='text'
-              name='username'
-              onChange={userState.handleInputSignIn}
-              value={userState.username}
-            />
-          </label>
-          <label htmlFor='username'>
-            Password:
-            <input
-              type='password'
-              name='password'
-              onChange={userState.handleInputSignIn}
-              value={userState.password}
-            />
-          </label>
-          <button onClick={userState.handleSignInBtn}>Submit:</button>
-        </form>
-      </div>
+      {localStorage.getItem('user') ? (
+        <div>you are already signed up!</div>
+      ) : (
+        <div>
+          <form>
+            <label htmlFor='username'>
+              Username:
+              <input
+                type='text'
+                name='username'
+                onChange={userState.handleInputSignIn}
+                value={userState.username}
+              />
+            </label>
+            <label htmlFor='username'>
+              Password:
+              <input
+                type='password'
+                name='password'
+                onChange={userState.handleInputSignIn}
+                value={userState.password}
+              />
+            </label>
+            <button onClick={userState.handleSignInBtn}>Submit</button>
+          </form>
+        </div>
+      )}
 
       <h3>Sign Up Form</h3>
       <form>
@@ -131,7 +145,7 @@ const SignUp = () => {
           value={userState.newPassword}
           onChange={userState.handleInputSignUp}
         />
-        <button onClick={userState.handleSignUpBtn}>Submit:</button>
+        <button onClick={userState.handleSignUpBtn}>Submit</button>
       </form>
     </>
   );
