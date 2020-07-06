@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PostContext from '../../utils/PostContext';
 import PostAPI from '../../utils/PostAPI';
+// import Join from '../../components/Join'
+// import Chat from '../../components/Chat'
+
 
 const {
   getPost,
