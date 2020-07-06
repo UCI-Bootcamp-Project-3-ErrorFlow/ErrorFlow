@@ -25,6 +25,7 @@
   "homepage": "https://github.com/UCI-Bootcamp-Project-3-ErrorFlow/ErrorFlow#readme",
   "dependencies": {
     "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "draft-js": "^0.11.6",
     "express": "^4.17.1",
