@@ -14,7 +14,6 @@ const InfoBar = ({ room }) => (
       <a href='/Main'>
         {/* <img src={closeIcon} alt='close' /> */}
       </a>
-      <button>save the chatroom content?</button>
     </div>
   </div>
 );
