@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
-import io from 'socket.io-client';
+import ioClient from 'socket.io-client';
 
 import OnlineContainer from '../OnlineContainer';
 import Messages from '../Messages';
@@ -17,14 +17,15 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const ENDPOINT = io.connect({path:'CAH/socket.io'})
-  // 'localhost:3001';
+  // const ENDPOINT = io.connect({path:'CAH/socket.io'})
+  const ENDPOINT ='http://localhost:3001';
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
     console.log(name, room);
-    socket = (ENDPOINT);
-
+    socket = ioClient(ENDPOINT);
+    console.log(socket)
+console.log(room, name)
     setRoom(room);
     setName(name);
 
@@ -47,6 +48,7 @@ const Chat = ({ location }) => {
 
   const sendMessage = (event) => {
     event.preventDefault();
+    console.log(message)
 
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));

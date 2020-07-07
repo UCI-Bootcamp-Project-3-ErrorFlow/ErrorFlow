@@ -8,8 +8,8 @@ import SignUp from './pages/SignUp';
 import LikedPosts from './pages/LikedPosts';
 import MyPosts from './pages/MyPosts';
 import NewPosts from './pages/NewPosts';
-// import Join from './components/Join';
-// import Chat from './components/Chat';
+import Join from './components/Join';
+import Chat from './components/Chat';
 import './App.css';
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -33,8 +33,8 @@ function App() {
             {/* <Link to='/LikedPosts'>Liked Post</Link> */}
                 <Button className="navBtns"><Link to='/MyPosts'>My Posts</Link></Button>
                 <Button className="navBtns"><Link to='/NewPosts'>New Posts</Link></Button>
-            {/* <Link to='/join'>Join chat</Link>
-            <Link to='/chat'></Link> */}
+            <Link to='/join'>Join chat</Link>
+            {/* <Link to='/chat'></Link> */}
                 <Button className="navBtns" onClick={postState.signOutBtn}>Sign Out</Button>
                 <h2 className="navHeader">ErrorFlow</h2>
                 </Header>
@@ -54,11 +54,11 @@ function App() {
             <Route path='/NewPosts'>
               <NewPosts />
             </Route>
-            {/* <Route path='/join'>
+            <Route path='/join'>
               <Join />
             </Route>
             <Route path='/chat' component={Chat}>
-            </Route> */}
+            </Route>
             <Route path='/'> 404 Page Not Found</Route>
           </Switch>
           </Layout>

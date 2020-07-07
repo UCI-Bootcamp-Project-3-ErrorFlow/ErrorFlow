@@ -13,8 +13,9 @@ router.post('/mycomments', passport.authenticate('jwt'), (req, res) => {
   Comment.create({
     commentBody: req.body.commentBody,
   })
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
+    .then(comments => res.json(comments))
+    // .then(() => res.sendStatus(200))
+    .catch((err) => console.error(err))
 });
 
 router.delete('/mycomments/:id', passport.authenticate('jwt'), (req, res) => {
