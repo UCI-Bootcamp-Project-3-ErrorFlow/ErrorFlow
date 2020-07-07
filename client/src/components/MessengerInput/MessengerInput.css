@@ -1,0 +1,11 @@
+.chatInput{
+    max-width: 90%;
+    max-height: 50px;
+    margin: 10px;
+    align-self: center;
+}
+.sendButton{
+    margin: 10px;
+    max-width: 25%;
+    align-self: flex-end;
+}

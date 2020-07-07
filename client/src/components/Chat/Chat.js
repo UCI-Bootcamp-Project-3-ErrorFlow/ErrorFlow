@@ -57,7 +57,7 @@ console.log(room, name)
 
   return (
     <div className='outerContainer'>
-      <div className='container'>
+      <div className='container chatBox'>
         <InfoBar room={room} />
         <Messages messages={messages} name={name} />
         <MessengerInput

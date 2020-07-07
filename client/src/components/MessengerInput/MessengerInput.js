@@ -6,7 +6,7 @@ import './MessengerInput.css';
 const MessengerInput = ({ message, setMessage, sendMessage }) => (
   <>
     <Input
-      className='input'
+      className='input chatInput'
       type='text'
       placeholder='Type a message...'
       value={message}

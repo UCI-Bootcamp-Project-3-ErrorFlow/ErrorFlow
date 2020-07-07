@@ -1,0 +1,6 @@
+.messages{
+    overflow: auto;
+}
+.messageCard{
+    max-width: 100%;
+}
