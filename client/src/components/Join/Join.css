@@ -1,0 +1,16 @@
+.joinOuterContainer{
+    text-align: center;
+}
+.heading{
+    margin: 10px;
+}
+.subHeading{
+    margin: 10px;
+}
+.chatInput{
+    margin: 5px;
+    max-width: 75%;
+}
+.chatOpenBtn{
+    margin: 3px;
+}
