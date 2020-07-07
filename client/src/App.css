@@ -3,28 +3,20 @@
 }
 
 .navBar{
-    background-color: rgb(59, 120, 199);
     justify-items: baseline;
     justify-content: space-around;
-    font-family: 'Roboto', sans-serif;
     -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
     -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
     box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
 .navBtns{
     margin: 5px;
-    font-family: 'Roboto', sans-serif;
+    
 }
 .navHeader{
     color: white;
     display: inline-block;
     position: absolute;
     right: 55px;
-    font-family: 'Roboto', sans-serif;
+    
 }
-
- body {
-      font-family: 'Roboto', sans-serif;
-    /* background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,121,9,1) 48%, rgba(0,212,255,1) 99%); */
-} 

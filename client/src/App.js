@@ -25,15 +25,15 @@ function App() {
   return (
     <>
       <Router>
-        <div className="container">
-          <Layout>
+        <div>
+          
             <Header className="navBar">
                 <Button className="navBtns"><Link to='/'>Sign Up</Link></Button>
                 <Button className="navBtns"><Link to='/Main'>Main</Link></Button>
             {/* <Link to='/LikedPosts'>Liked Post</Link> */}
                 <Button className="navBtns"><Link to='/MyPosts'>My Posts</Link></Button>
                 <Button className="navBtns"><Link to='/NewPosts'>New Posts</Link></Button>
-            <Link to='/join'>Join chat</Link>
+                <Button className="navBtns"><Link to='/join'>Join chat</Link></Button>
             {/* <Link to='/chat'></Link> */}
                 <Button className="navBtns" onClick={postState.signOutBtn}>Sign Out</Button>
                 <h2 className="navHeader">ErrorFlow</h2>
@@ -61,7 +61,7 @@ function App() {
             </Route>
             <Route path='/'> 404 Page Not Found</Route>
           </Switch>
-          </Layout>
+          
         </div>
       </Router>
     </>
