@@ -117,5 +117,5 @@ require('mongoose')
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => server.listen(3001 || process.env.PORT))
+  .then(() => server.listen(process.env.PORT || 3001))
   .catch((err) => console.error(err));
