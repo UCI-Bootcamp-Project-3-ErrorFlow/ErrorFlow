@@ -1,3 +1,4 @@
+import { DeleteOutlined, LikeOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
@@ -163,7 +164,7 @@ const Main = () => {
                         postState.handleUpdateLike(item, item.isLiked)
                       }
                     >
-                      {`👍 ${item.likeValue}`}
+                      <LikeOutlined /> {`${item.likeValue}`}
                     </Button>
                   </form>
                 </div>
@@ -193,7 +194,7 @@ const Main = () => {
                       commentState.handleDeleteComment(comment._id)
                     }
                   >
-                    🗑
+                    <DeleteOutlined />
                   </Button>
                 </Card>
               ))}

@@ -6,12 +6,23 @@ button {
   color: black;
 }
 
+.ant-layout-content{
+  overflow-y: scroll;
+}
+
 .ant-layout-sider-children {
   display: flex;
   flex-direction: column;
+
+}
+.ant-layout-has-sider{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+
 }
 .messageFeed {
   color: lightgrey;
+  max-width: 100%;
 }
 .commentBtn {
   padding: 0px;
