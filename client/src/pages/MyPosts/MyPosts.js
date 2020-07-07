@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
 import PostAPI from '../../utils/PostAPI';
 import Switch from '../../components/Switch';
 import '../../components/Switch/Switch.css';
+import './MyPosts.css';
+const { Header, Footer, Sider, Content } = Layout;
 
 const { getMyPost, updatePost, deletePost } = PostAPI;
 
@@ -50,30 +53,44 @@ const MyPosts = () => {
   return (
     <>
       <PostContext.Provider value={postState}>
-        {postState.myPosts.map((item) => (
-          <div
-            key={item._id}
-            style={
-              item.isSolved
-                ? { border: '1px solid green', margin: '5px' }
-                : { border: '1px solid red', margin: '5px' }
-            }
-          >
-            <h4>{item.title}</h4>
-            <p>{item.body}</p>
-            <Switch
-              id={item._id}
-              isOn={item.isSolved}
-              onColor={item.isSolved ? '#06D6A0' : '#D83564'}
-              handleToggle={() =>
-                postState.handleToggle(item._id, item.isSolved)
+        <Content>
+          {postState.myPosts.map((item) => (
+            <div
+              key={item._id}
+              style={
+                item.isSolved
+                  ? {
+                      border: '2px solid green',
+                      borderRadius: '10px',
+                      margin: '5px',
+                    }
+                  : {
+                      border: '2px solid red',
+                      borderRadius: '10px',
+                      margin: '5px',
+                    }
               }
-            />
-            <button onClick={() => postState.handleDeletePost(item._id)}>
-              Delete
-            </button>
-          </div>
-        ))}
+            >
+              <div className='postCard'>
+                <h2>{item.title}</h2>
+                <p>{item.body}</p>
+                <div className='btnContainer'>
+                  <Switch
+                    id={item._id}
+                    isOn={item.isSolved}
+                    onColor={item.isSolved ? '#06D6A0' : '#D83564'}
+                    handleToggle={() =>
+                      postState.handleToggle(item._id, item.isSolved)
+                    }
+                  />
+                  <button onClick={() => postState.handleDeletePost(item._id)}>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Content>
       </PostContext.Provider>
     </>
   );

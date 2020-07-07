@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
 import PostAPI from '../../utils/PostAPI';
-import CommentContext from '../../utils/CommentContext'
+import CommentContext from '../../utils/CommentContext';
 import axios from 'axios';
-import './Main.css'
+import './Main.css';
 // import Join from '../../components/Join'
 // import Chat from '../../components/Chat'
 
@@ -66,11 +66,11 @@ const Main = () => {
       )
       .then(({ data }) => {
         getComment()
-        .then(({ data }) => {
-          console.log(data);
-          setCommentState({ ...commentState, comments: data, });
-        })
-        .catch((err) => console.error(err));
+          .then(({ data }) => {
+            console.log(data);
+            setCommentState({ ...commentState, comments: data });
+          })
+          .catch((err) => console.error(err));
         // console.log([data]);
         // const newCommentsArray = [data]
         // setCommentState({ ...commentState, comments: newCommentsArray });
@@ -127,70 +127,80 @@ const Main = () => {
 
   return (
     <>
-    
-      
       <Layout>
-      <PostContext.Provider value={postState}>
-        <Content>
-        <h1>view all users posts</h1>
-          {postState.posts.map((item) => (
-            <div
-              key={item._id}
-              style={
-                item.isSolved
-                  ? { border: '1px solid green', margin: '5px' }
-                  : { border: '1px solid red', margin: '5px' }
-              }
-            >
-              <h2>{item.title}</h2>
-              <h4>{`written by ${item.author.username}`}</h4>
-              <span>{item.body}</span>
-              <div>
-                <form>
+        <PostContext.Provider value={postState}>
+          <Content>
+            <h1>view all users posts</h1>
+            {postState.posts.map((item) => (
+              <div
+                key={item._id}
+                style={
+                  item.isSolved
+                    ? {
+                        border: '2px solid green',
+                        borderRadius: '10px',
+                        margin: '5px',
+                      }
+                    : {
+                        border: '2px solid red',
+                        borderRadius: '10px',
+                        margin: '5px',
+                      }
+                }
+              >
+                <div className='postCard'>
+                  <h2>{item.title}</h2>
+                  <h4>{`written by ${item.author.username}`}</h4>
+                  <p>{item.body}</p>
+                </div>
+                <div>
+                  <form>
+                    <Button
+                      // style={{ cursor: 'pointer' }}
+                      value={item.isLiked}
+                      name={item.isLiked ? '👎' : '👍'}
+                      onClick={() =>
+                        postState.handleUpdateLike(item, item.isLiked)
+                      }
+                    >
+                      {`👍 ${item.likeValue}`}
+                    </Button>
+                  </form>
+                </div>
+              </div>
+            ))}
+          </Content>
+        </PostContext.Provider>
+        <CommentContext.Provider value={commentState}>
+          <Sider className='messageFeed'>
+            <input
+              style={{ width: '100%' }}
+              type='comment'
+              name='comment'
+              label='comment'
+              value={commentState.comment}
+              onChange={commentState.handleInputChange}
+              placeholder='Type comments'
+            />
+            <button onClick={commentState.handleAddComment}>Submit</button>
+            <div>
+              {commentState.comments.map((comment) => (
+                <Card className='commentCard'>
+                  <p>{comment.commentBody}</p>
                   <Button
-                    // style={{ cursor: 'pointer' }}
-                    value={item.isLiked}
-                    name={item.isLiked ? '👎' : '👍'}
+                    className='commentBtn'
                     onClick={() =>
-                      postState.handleUpdateLike(item, item.isLiked)
+                      commentState.handleDeleteComment(comment._id)
                     }
                   >
-                    {`👍 ${item.likeValue}`}
+                    🗑
                   </Button>
-                </form>
-              </div>
-            </div>
-          ))}
-          </Content>
-          </PostContext.Provider>
-          <CommentContext.Provider value={commentState}>
-          <Sider className="messageFeed">
-          <input
-            type='comment'
-            name='comment'
-            label='comment'
-            value={commentState.comment}
-            onChange={commentState.handleInputChange}
-          />
-          <div>
-            <button onClick={commentState.handleAddComment}>Submit</button>
-            {commentState.comments.map((comment) => (
-                <Card className="commentCard">
-                  <p>{comment.commentBody}</p>
-                <Button 
-                  className="commentBtn"
-                  onClick={() => commentState.handleDeleteComment(comment._id)}
-                >
-                  🗑
-                </Button>
                 </Card>
-            ))}
-          </div>
+              ))}
+            </div>
           </Sider>
-          </CommentContext.Provider>
-        </Layout>
-      
-    
+        </CommentContext.Provider>
+      </Layout>
     </>
   );
 };
