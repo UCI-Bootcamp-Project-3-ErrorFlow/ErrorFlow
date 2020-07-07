@@ -8,7 +8,7 @@ const Like = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Post',
     },
-  ]
+  ],
 });
 
 module.exports = model('Like', Like);

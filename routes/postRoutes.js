@@ -30,8 +30,6 @@ router.post('/myposts', passport.authenticate('jwt'), (req, res) => {
     isSolved: req.body.isSolved,
     likeValue: req.body.likeValue,
     isLiked: req.body.isLiked,
-    // commentBody: req.body.commentBody,
-    // commentAuthor: req.body.commentAuthor,
     comments: req.body.comment,
     author: req.user._id,
   })
@@ -42,7 +40,6 @@ router.post('/myposts', passport.authenticate('jwt'), (req, res) => {
             title: post.title,
             body: post.body,
             isSolved: post.isSolved,
-            //added by A and L for liked routes
             isLiked: post.liked,
             comments: post.comment,
             author: req.user,

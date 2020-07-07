@@ -26,7 +26,7 @@ input {
 
 .ant-layout-sider-children {
   grid-area: comment;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   overflow-y: scroll;
   height: 82vh;
@@ -34,6 +34,7 @@ input {
 
 .commentBtn {
   padding: 0px;
+  text-align: right;
 }
 .ant-card {
   padding: 5px;
@@ -41,13 +42,11 @@ input {
 }
 
 .commentBody {
-  text-align: left;
   margin: 0px;
 }
 
 .ant-card-body {
   padding: 0px;
-  text-align: right;
 }
 
 .ant-btn {

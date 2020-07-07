@@ -4,7 +4,7 @@ As a Software Engineer, I want to be able to post and share engineering errors t
 
 ## DEMO
 
-
+![DEMO](./client/public/assets/demo.gif)
 
 ## Installation
 
@@ -50,11 +50,10 @@ In GitBash terminal Npm install. Npm start
 
 ## Technologies used
 
-* 
 [React](https://reactjs.org/docs/create-a-new-react-app.html) 
-* 
+ 
 [AntD](https://ant.design/) - Styling Library 
-* 
+ 
  
 ## Authors
  
@@ -67,6 +66,6 @@ In GitBash terminal Npm install. Npm start
 * **Pravin Sisowath** - [pravinsisowath](https://github.com/pravinsisowath)
 
 ## Deployed address
-
+https://guarded-harbor-13074.herokuapp.com/
 ## Github repo address
 https://github.com/UCI-Bootcamp-Project-3-ErrorFlow/ErrorFlow

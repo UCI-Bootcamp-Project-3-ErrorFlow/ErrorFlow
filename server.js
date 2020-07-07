@@ -15,7 +15,6 @@ const { Strategy: JWTStrategy, ExtractJwt } = require('passport-jwt');
 const { join } = require('path');
 
 app.use(cors());
-//must come before app.get
 app.use(express.static(join(__dirname, 'client', 'build')));
 app.use('/uploads', express.static('uploads'));
 app.use(
@@ -26,7 +25,6 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
-//don't move me
 app.use(require('./routes'));
 console.log('before io.on');
 

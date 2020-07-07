@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Card, Button } from 'antd';
+import { Layout } from 'antd';
 import PostContext from '../../utils/PostContext';
 import PostAPI from '../../utils/PostAPI';
 import Switch from '../../components/Switch';
 import '../../components/Switch/Switch.css';
 import './MyPosts.css';
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
 const { getMyPost, updatePost, deletePost } = PostAPI;
 
 const MyPosts = () => {
   const [postState, setPostState] = useState({
     myPosts: [],
-    users: {},
   });
 
   postState.handleDeletePost = (id) => {
@@ -44,7 +43,6 @@ const MyPosts = () => {
   useEffect(() => {
     getMyPost()
       .then(({ data }) => {
-        console.log(data);
         setPostState({ ...postState, myPosts: data.posts });
       })
       .catch((err) => console.error(err));
@@ -83,7 +81,10 @@ const MyPosts = () => {
                       postState.handleToggle(item._id, item.isSolved)
                     }
                   />
-                  <button style={{marginRight:"10px"}} onClick={() => postState.handleDeletePost(item._id)}>
+                  <button
+                    style={{ marginRight: '10px' }}
+                    onClick={() => postState.handleDeletePost(item._id)}
+                  >
                     Delete
                   </button>
                 </div>
