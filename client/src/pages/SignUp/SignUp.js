@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Layout, Card} from 'antd';
 import axios from 'axios';
+import './SignUp.css'
+
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -84,13 +86,18 @@ const SignUp = () => {
   };
 
   return (
+    
     <>
+  
     <Content>
       
       {localStorage.getItem('user') ? (
         window.location= '/Main'
       ) : (
-        <Card>
+
+       
+        <Card classNAme="sign-In-Body">
+          <div className="sign-In">
           <h3>Sign In</h3>
           <form>
               <input
@@ -112,12 +119,14 @@ const SignUp = () => {
           <br></br>
             <button onClick={userState.handleSignInBtn}>Sign In</button>
           </form>
+          </div>
         </Card>
+        
       )}
-      
     </Content>
     <Content>
-      <Card>
+      <Card className ="card">
+        <div className = "sign-Up">
       <h3>Sign Up</h3>
       <form>
         <input
@@ -159,8 +168,11 @@ const SignUp = () => {
         <br></br>
         <button onClick={userState.handleSignUpBtn}>Sign Up</button>
       </form>
+      </div>
       </Card>
       </Content>
+      
+       <Footer className= "footer" style={{ textAlign: 'center' }}>ErrorFlow ©2020 Created by Flow Team</Footer>
     </>
   );
 };

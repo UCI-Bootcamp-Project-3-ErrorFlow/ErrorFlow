@@ -200,6 +200,7 @@ const Main = () => {
             </div>
           </Sider>
         </CommentContext.Provider>
+        <Footer className= "footer" style={{ textAlign: 'center' }}>ErrorFlow ©2020 Created by Flow Team</Footer>
       </Layout>
     </>
   );

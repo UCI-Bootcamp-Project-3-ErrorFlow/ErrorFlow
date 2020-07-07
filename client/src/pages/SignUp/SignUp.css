@@ -1,0 +1,41 @@
+@import '~antd/dist/antd.css';
+
+.sign-In {
+    
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.sign-Up {
+  
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+
+.footer {
+ position:fixed;
+   left:0px;
+   bottom:0px;
+   height:60px;
+   width:100%;
+   background-color: rgba(126, 147, 173, 0.534);
+   font-family: 'Roboto', sans-serif;
+   -webkit-box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px -4px 5px 0px rgba(0,0,0,0.75);
+    z-index: 999999;
+}
+
+/* 
+body {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,121,9,1) 48%, rgba(0,212,255,1) 99%);
+} */
+
+.sign-In-Body {
+     background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(117,121,9,1) 48%, rgba(0,212,255,1) 99%);
+}
+

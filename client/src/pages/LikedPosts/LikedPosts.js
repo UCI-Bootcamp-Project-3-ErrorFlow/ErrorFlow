@@ -45,7 +45,7 @@ const LikedPosts = () => {
         </div>
       ))} */}
     </>
-  );
+  )
 };
 
 export default LikedPosts;
