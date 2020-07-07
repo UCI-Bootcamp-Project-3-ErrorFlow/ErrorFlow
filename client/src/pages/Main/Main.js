@@ -1,4 +1,4 @@
-import { DeleteOutlined, LikeOutlined } from '@ant-design/icons';
+import { DeleteOutlined, HeartOutlined, HeartTwoTone } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
@@ -164,7 +164,7 @@ const Main = () => {
                         postState.handleUpdateLike(item, item.isLiked)
                       }
                     >
-                      <LikeOutlined /> {`${item.likeValue}`}
+                      {item.isLiked ? <HeartTwoTone/> :<HeartOutlined />}
                     </Button>
                   </form>
                 </div>
