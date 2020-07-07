@@ -83,7 +83,7 @@ const MyPosts = () => {
                       postState.handleToggle(item._id, item.isSolved)
                     }
                   />
-                  <button onClick={() => postState.handleDeletePost(item._id)}>
+                  <button style={{marginRight:"10px"}} onClick={() => postState.handleDeletePost(item._id)}>
                     Delete
                   </button>
                 </div>

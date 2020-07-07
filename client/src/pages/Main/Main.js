@@ -1,4 +1,4 @@
-import { DeleteOutlined, HeartOutlined, HeartTwoTone } from '@ant-design/icons';
+import { DeleteOutlined, HeartOutlined, HeartTwoTone, CommentOutlined } from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
@@ -131,7 +131,7 @@ const Main = () => {
       <Layout>
         <PostContext.Provider value={postState}>
           <Content>
-            <h1>view all users posts</h1>
+            <h1 className='mainHeader'>Error Board</h1>
             {postState.posts.map((item) => (
               <div
                 key={item._id}
@@ -164,7 +164,7 @@ const Main = () => {
                         postState.handleUpdateLike(item, item.isLiked)
                       }
                     >
-                      {item.isLiked ? <HeartTwoTone/> :<HeartOutlined />}
+                      {item.isLiked ? <HeartTwoTone /> : <HeartOutlined />}
                     </Button>
                   </form>
                 </div>
@@ -181,13 +181,13 @@ const Main = () => {
               label='comment'
               value={commentState.comment}
               onChange={commentState.handleInputChange}
-              placeholder='Type comments'
+              placeholder='Send A Chat...'
             />
-            <button onClick={commentState.handleAddComment}>Submit</button>
+            <Button onClick={commentState.handleAddComment}><CommentOutlined /></Button>
             <div>
               {commentState.comments.map((comment) => (
                 <Card className='commentCard'>
-                  <p>{comment.commentBody}</p>
+                  <p className='commentBody'>{comment.commentBody}</p>
                   <Button
                     className='commentBtn'
                     onClick={() =>
@@ -201,7 +201,9 @@ const Main = () => {
             </div>
           </Sider>
         </CommentContext.Provider>
-        <Footer className= "footer" style={{ textAlign: 'center' }}>ErrorFlow ©2020 Created by Flow Team</Footer>
+        <Footer className='footer' style={{ textAlign: 'center' }}>
+          ErrorFlow ©2020 Created by Flow Team
+        </Footer>
       </Layout>
     </>
   );

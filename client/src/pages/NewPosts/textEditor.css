@@ -82,3 +82,13 @@
 .RichEditor-activeButton {
   color: #5890ff;
 }
+
+
+.errorTitle{
+  width: 100%;
+}
+
+.ant-card-body {
+  padding: 0px;
+  text-align: left;
+}

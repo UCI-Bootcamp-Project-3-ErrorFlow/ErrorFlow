@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Card, Button } from 'antd';
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
 import './textEditor.css';
 import '../../../../node_modules/draft-js/dist/Draft.css';
@@ -133,41 +134,40 @@ class NewPosts extends React.Component {
 
     return (
       <>
-        <div className='RichEditor-root'>
-          <form>
-            <label name='title' title='title'></label>
-            <input
-              name='title'
-              title='title'
-              value={this.state.title}
-              placeholder='Title'
-              onChange={(event) => this.handleInputChange(event)}
-            ></input>
-            <hr></hr>
-          </form>
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
-          />
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
-          />
-          <div className={className} onClick={this.focus}>
-            <Editor
-              blockStyleFn={getBlockStyle}
-              customStyleMap={styleMap}
+        <Card>
+          <div className='RichEditor-root'>
+            <form>
+              <label name='title' title='title'></label>
+              <input
+                class='errorTitle'
+                name='title'
+                title='title'
+                value={this.state.title}
+                placeholder='Tell Us About Your Error...'
+                onChange={(event) => this.handleInputChange(event)}
+              ></input>
+              <hr></hr>
+            </form>
+            <BlockStyleControls
               editorState={editorState}
-              handleKeyCommand={this.handleKeyCommand}
-              keyBindingFn={this.mapKeyToEditorCommand}
-              onChange={this.onChange}
-              placeholder='Tell Us About Your Errors...'
-              ref='editor'
-              spellCheck={true}
+              onToggle={this.toggleBlockType}
             />
+            <div className={className} onClick={this.focus}>
+              <Editor
+                blockStyleFn={getBlockStyle}
+                customStyleMap={styleMap}
+                editorState={editorState}
+                handleKeyCommand={this.handleKeyCommand}
+                keyBindingFn={this.mapKeyToEditorCommand}
+                onChange={this.onChange}
+                placeholder='Enter Your Code...'
+                ref='editor'
+                spellCheck={true}
+              />
+            </div>
           </div>
-        </div>
-        <button onClick={this.handleSubmitBtn}>Submit</button>
+          <Button onClick={this.handleSubmitBtn}>Submit</Button>
+        </Card>
       </>
     );
   }
