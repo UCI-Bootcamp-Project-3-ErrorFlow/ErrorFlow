@@ -1,9 +1,9 @@
 node_modules
 # dotenv environment variables file
-# .env
-# .env.test
-# .DS_Store
-# .env.local
-# .env.development.local
-# .env.test.local
-# .env.production.local
+.env
+.env.test
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
