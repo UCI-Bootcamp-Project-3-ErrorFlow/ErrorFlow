@@ -1,10 +1,11 @@
 import React from 'react';
+import { Input, Button } from 'antd';
 
-import './Input.css';
+import './MessengerInput.css';
 
-const Input = ({ message, setMessage, sendMessage }) => (
-  <form>
-    <input
+const MessengerInput = ({ message, setMessage, sendMessage }) => (
+  <>
+    <Input
       className='input'
       type='text'
       placeholder='Type a message...'
@@ -14,8 +15,8 @@ const Input = ({ message, setMessage, sendMessage }) => (
         event.key === 'Enter' ? sendMessage(event) : null
       }
     />
-    <button className='sendButton' onClick={(event)=>sendMessage(event)}>Send</button>
-  </form>
+    <Button className='sendButton' onClick={(event)=>sendMessage(event)}>Send</Button>
+  </>
 );
 
-export default Input;
+export default MessengerInput;
