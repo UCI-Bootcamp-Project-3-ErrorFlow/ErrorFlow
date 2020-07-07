@@ -5,7 +5,7 @@ import ioClient from 'socket.io-client';
 import OnlineContainer from '../OnlineContainer';
 import Messages from '../Messages';
 import InfoBar from '../InfoBar';
-import Input from '../Input';
+import MessengerInput from '../MessengerInput';
 
 import './Chat.css';
 
@@ -57,10 +57,10 @@ console.log(room, name)
 
   return (
     <div className='outerContainer'>
-      <div className='container'>
+      <div className='container chatBox'>
         <InfoBar room={room} />
         <Messages messages={messages} name={name} />
-        <Input
+        <MessengerInput
           message={message}
           setMessage={setMessage}
           sendMessage={sendMessage}

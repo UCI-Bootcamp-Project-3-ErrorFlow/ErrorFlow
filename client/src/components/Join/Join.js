@@ -1,41 +1,52 @@
-import { Link } from 'react-router-dom';
+import { UserOutlined, CommentOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
+import { Input } from 'antd';
+import { Link } from 'react-router-dom';
+import { Layout, Card, Button, Badge } from 'antd';
+
 import './Join.css';
+
+const { Header, Footer, Sider, Content } = Layout;
+
 
 const Join = () => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
 
   return (
+    <Layout>
     <div className='joinOuterContainer'>
       <div className='joinInnerContainer'>
-        <h1 className='heading'> Join </h1>
-        <div>
-          <input
+        <Card>
+        <h2 className='heading'>Join a Chat Room <Badge status="processing"/></h2>
+        <h3 className='subHeading'>Collaborate with like minds and expand your code expertise.</h3>
+          <Input
             placeholder='Name'
-            className='joinInput'
+            className='chatInput'
             type='text'
             onChange={(event) => setName(event.target.value)}
+            prefix={<UserOutlined />}
           />
-        </div>
-        <div>
-          <input
+          <Input
             placeholder='Room'
-            className='joinInput mt-20'
+            className='chatInput mt-20'
             type='text'
             onChange={(event) => setRoom(event.target.value)}
+            prefix={<CommentOutlined />}
           />
-        </div>
+          <br></br>
         <Link
           onClick={(event) => (!name || !room ? event.preventDefault() : null)}
           to={`/chat?name=${name}&room=${room}`}
         >
-          <button className='button mt-20' type='submit'>
+          <Button className='chatOpenBtn button mt-20' type='submit'>
             Sign in
-          </button>
+          </Button>
         </Link>
+        </Card>
       </div>
     </div>
+    </Layout>
   );
 };
 export default Join;

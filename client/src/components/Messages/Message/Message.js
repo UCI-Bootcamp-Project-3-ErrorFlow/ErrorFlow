@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from 'antd';
 import './Message.css';
 import ReactEmoji from 'react-emoji';
 
@@ -13,15 +14,19 @@ const Message = ({ message: { text, user }, name }) => {
   return isSentByCurrentUser ? (
     <div className='messageCotainer'>
       <p className='sentText'>{trimmedName}</p>
-      <div className='messageBox'>
+      <Card>
+      <div className='messageBin'>
         <p className='messageText colorWhite'>{ReactEmoji.emojify(text)}</p>
       </div>
+      </Card>
     </div>
   ) : (
     <div className='messageCotainer justriftStart'>
-      <div className='messageBox backgroundLight'>
+      <Card>
+      <div className='messageBin backgroundLight'>
         <p className='messageText colorDark'>{ReactEmoji.emojify(text)}</p>
       </div>
+      </Card>
       <p className='sentText pl-10'>{user}</p>
     </div>
   );
