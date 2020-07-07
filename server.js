@@ -6,7 +6,7 @@ const http = require('http');
 const cors = require('cors');
 const server = http.createServer(app);
 const io = socketio(server);
-const PORT = 3001
+const PORT = 3001 || process.env.PORT
 
 const {
   addUser,
