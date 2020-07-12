@@ -17,15 +17,12 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  // const ENDPOINT = io.connect({path:'CAH/socket.io'})
-  const ENDPOINT ='http://localhost:3001';
+  const ENDPOINT = 'https://guarded-harbor-13074.herokuapp.com';
+  //or 'localhost:3001'
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-    console.log(name, room);
     socket = ioClient(ENDPOINT);
-    console.log(socket)
-console.log(room, name)
     setRoom(room);
     setName(name);
 
@@ -41,14 +38,13 @@ console.log(room, name)
       setMessages((messages) => [...messages, message]);
     });
 
-    socket.on('roomData', ({ users }) => {
+    socket.on('roomData', (users) => {
       setUsers(users);
     });
   }, []);
 
   const sendMessage = (event) => {
     event.preventDefault();
-    console.log(message)
 
     if (message) {
       socket.emit('sendMessage', message, () => setMessage(''));

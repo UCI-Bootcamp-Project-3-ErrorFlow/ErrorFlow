@@ -10,12 +10,14 @@ const MessengerInput = ({ message, setMessage, sendMessage }) => (
       type='text'
       placeholder='Type a message...'
       value={message}
-      onChange={(event) => setMessage(event.target.value)}
+      onChange={({ target: { value } }) => setMessage(value)}
       onKeyPress={(event) =>
         event.key === 'Enter' ? sendMessage(event) : null
       }
     />
-    <Button className='sendButton' onClick={(event)=>sendMessage(event)}>Send</Button>
+    <Button className='sendButton' onClick={(event) => sendMessage(event)}>
+      Send
+    </Button>
   </>
 );
 
