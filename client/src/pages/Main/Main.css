@@ -1,35 +1,59 @@
 main {
   background-color: white;
 }
-input,
-button {
-  color: black;
+
+input {
+  margin: 5px;
 }
 
-.ant-layout-content{
+.mainHeader {
+  text-align: center;
+}
+
+.ant-layout-has-sider {
+  display: grid;
+  grid-template-columns: 3fr 3fr 1fr;
+  grid-template-areas: 'body body comment';
+  height: 100vh;
+  width: 100vw;
+}
+
+.ant-layout-content {
+  grid-area: body;
   overflow-y: scroll;
+  height: 82vh;
 }
 
 .ant-layout-sider-children {
-  display: flex;
+  grid-area: comment;
+  /* display: flex; */
   flex-direction: column;
+  overflow-y: scroll;
+  height: 82vh;
+}
 
-}
-.ant-layout-has-sider{
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-
-}
-.messageFeed {
-  color: lightgrey;
-  max-width: 100%;
-}
 .commentBtn {
   padding: 0px;
+  text-align: right;
 }
-.ant-card-body {
+.ant-card {
   padding: 5px;
+  margin: 5px;
 }
+
+.commentBody {
+  margin: 0px;
+}
+
+.ant-card-body {
+  padding: 0px;
+}
+
+.ant-btn {
+  margin: 5px;
+  size: small;
+}
+
 .postCard {
   background-color: rgba(0, 0, 0, 0.05);
   font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
@@ -38,11 +62,10 @@ button {
 }
 
 .footer {
- position:fixed;
-   left:0px;
-   bottom:0px;
-   /* height:1000px; */
-   width:100%;
-   background:#999;
-   font-family: 'Roboto', sans-serif;
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  background: #999;
+  font-family: 'Roboto', sans-serif;
 }

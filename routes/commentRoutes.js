@@ -14,7 +14,6 @@ router.post('/mycomments', passport.authenticate('jwt'), (req, res) => {
     commentBody: req.body.commentBody,
   })
     .then(comments => res.json(comments))
-    // .then(() => res.sendStatus(200))
     .catch((err) => console.error(err))
 });
 

@@ -1,4 +1,9 @@
-import { DeleteOutlined, LikeOutlined } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  HeartOutlined,
+  HeartTwoTone,
+  CommentOutlined,
+} from '@ant-design/icons';
 import React, { useState, useEffect } from 'react';
 import { Layout, Card, Button } from 'antd';
 import PostContext from '../../utils/PostContext';
@@ -6,20 +11,10 @@ import PostAPI from '../../utils/PostAPI';
 import CommentContext from '../../utils/CommentContext';
 import axios from 'axios';
 import './Main.css';
-// import Join from '../../components/Join'
-// import Chat from '../../components/Chat'
 
 const { Header, Footer, Sider, Content } = Layout;
 
-const {
-  getPost,
-  getComment,
-  // getMyPost,
-  // addPost,
-  updatePost,
-  // deletePost
-  deleteComment,
-} = PostAPI;
+const { getPost, getComment, updatePost, deleteComment } = PostAPI;
 
 //if you want to render as we go into the page.
 const Main = () => {
@@ -68,13 +63,9 @@ const Main = () => {
       .then(({ data }) => {
         getComment()
           .then(({ data }) => {
-            console.log(data);
             setCommentState({ ...commentState, comments: data });
           })
           .catch((err) => console.error(err));
-        // console.log([data]);
-        // const newCommentsArray = [data]
-        // setCommentState({ ...commentState, comments: newCommentsArray });
       })
       .catch((err) => console.error(err));
   };
@@ -114,13 +105,11 @@ const Main = () => {
   useEffect(() => {
     getPost()
       .then(({ data }) => {
-        console.log(data);
         setPostState({ ...postState, posts: data });
       })
       .catch((err) => console.error(err));
     getComment()
       .then(({ data }) => {
-        console.log(data);
         setCommentState({ ...commentState, comments: data });
       })
       .catch((err) => console.error(err));
@@ -131,7 +120,7 @@ const Main = () => {
       <Layout>
         <PostContext.Provider value={postState}>
           <Content>
-            <h1>view all users posts</h1>
+            <h1 className='mainHeader'>Error Board</h1>
             {postState.posts.map((item) => (
               <div
                 key={item._id}
@@ -164,7 +153,7 @@ const Main = () => {
                         postState.handleUpdateLike(item, item.isLiked)
                       }
                     >
-                      <LikeOutlined /> {`${item.likeValue}`}
+                      {item.isLiked ? <HeartTwoTone /> : <HeartOutlined />}
                     </Button>
                   </form>
                 </div>
@@ -175,33 +164,38 @@ const Main = () => {
         <CommentContext.Provider value={commentState}>
           <Sider className='messageFeed'>
             <input
-              style={{ width: '100%' }}
+              style={{ width: '90%' }}
               type='comment'
               name='comment'
               label='comment'
               value={commentState.comment}
               onChange={commentState.handleInputChange}
-              placeholder='Type comments'
+              placeholder='Send A Chat...'
             />
-            <button onClick={commentState.handleAddComment}>Submit</button>
+            <Button onClick={commentState.handleAddComment}>
+              <CommentOutlined />
+            </Button>
             <div>
               {commentState.comments.map((comment) => (
                 <Card className='commentCard'>
-                  <p>{comment.commentBody}</p>
-                  <Button
-                    className='commentBtn'
-                    onClick={() =>
-                      commentState.handleDeleteComment(comment._id)
-                    }
-                  >
-                    <DeleteOutlined />
-                  </Button>
+                  <p className='commentBody'>{comment.commentBody}</p>
+                  <div className='commentBtn'>
+                    <Button
+                      onClick={() =>
+                        commentState.handleDeleteComment(comment._id)
+                      }
+                    >
+                      <DeleteOutlined />
+                    </Button>
+                  </div>
                 </Card>
               ))}
             </div>
           </Sider>
         </CommentContext.Provider>
-        <Footer className= "footer" style={{ textAlign: 'center' }}>ErrorFlow ©2020 Created by Flow Team</Footer>
+        <Footer className='footer' style={{ textAlign: 'center' }}>
+          ErrorFlow ©2020 Created by Flow Team
+        </Footer>
       </Layout>
     </>
   );

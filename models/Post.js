@@ -9,17 +9,13 @@ const Post = new Schema({
   comments: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Comment'
+      ref: 'Comment',
     },
   ],
   author: {
-    type: Schema.Types.ObjectId, //we are building relations here with model called 'User'.
-    ref: 'User', //will be populated in post routes
+    type: Schema.Types.ObjectId,
+    ref: 'User',
   },
-  // commentBody: [{ type: String, ref: 'Comment' }],
-  // commentAuthor: [{ type: String, ref: 'Comment' }],
-  // postId: String,
-  //users who have posts, lets call them author,
 });
 
 module.exports = model('Post', Post);

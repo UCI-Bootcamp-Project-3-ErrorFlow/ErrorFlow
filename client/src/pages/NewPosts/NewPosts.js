@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Card, Button } from 'antd';
 import { Editor, EditorState, RichUtils, getDefaultKeyBinding } from 'draft-js';
 import './textEditor.css';
 import '../../../../node_modules/draft-js/dist/Draft.css';
@@ -48,7 +49,6 @@ class NewPosts extends React.Component {
       let parsedContent = JSON.parse(content);
       let parsedBodyContent = '';
       for (const prop in parsedContent.blockMap) {
-        console.log(parsedContent.blockMap[prop].text);
         parsedBodyContent += parsedContent.blockMap[prop].text + ' ';
       }
 
@@ -64,8 +64,6 @@ class NewPosts extends React.Component {
             likeValue: 0,
             isLiked: false,
             comments: [],
-            // commentBody: [],
-            // commentAuthor: [],
           },
           {
             headers: {
@@ -73,8 +71,7 @@ class NewPosts extends React.Component {
             },
           }
         )
-        .then(({ data }) => {
-          console.log(data);
+        .then(() => {
         })
         .catch((err) => console.error(err));
     } else {
@@ -133,41 +130,40 @@ class NewPosts extends React.Component {
 
     return (
       <>
-        <div className='RichEditor-root'>
-          <form>
-            <label name='title' title='title'></label>
-            <input
-              name='title'
-              title='title'
-              value={this.state.title}
-              placeholder='Title'
-              onChange={(event) => this.handleInputChange(event)}
-            ></input>
-            <hr></hr>
-          </form>
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
-          />
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
-          />
-          <div className={className} onClick={this.focus}>
-            <Editor
-              blockStyleFn={getBlockStyle}
-              customStyleMap={styleMap}
+        <Card>
+          <div className='RichEditor-root'>
+            <form>
+              <label name='title' title='title'></label>
+              <input
+                class='errorTitle'
+                name='title'
+                title='title'
+                value={this.state.title}
+                placeholder='Tell Us About Your Error...'
+                onChange={(event) => this.handleInputChange(event)}
+              ></input>
+              <hr></hr>
+            </form>
+            <BlockStyleControls
               editorState={editorState}
-              handleKeyCommand={this.handleKeyCommand}
-              keyBindingFn={this.mapKeyToEditorCommand}
-              onChange={this.onChange}
-              placeholder='Tell Us About Your Errors...'
-              ref='editor'
-              spellCheck={true}
+              onToggle={this.toggleBlockType}
             />
+            <div className={className} onClick={this.focus}>
+              <Editor
+                blockStyleFn={getBlockStyle}
+                customStyleMap={styleMap}
+                editorState={editorState}
+                handleKeyCommand={this.handleKeyCommand}
+                keyBindingFn={this.mapKeyToEditorCommand}
+                onChange={this.onChange}
+                placeholder='Enter Your Code...'
+                ref='editor'
+                spellCheck={true}
+              />
+            </div>
           </div>
-        </div>
-        <button onClick={this.handleSubmitBtn}>Submit</button>
+          <Button onClick={this.handleSubmitBtn}>Submit</Button>
+        </Card>
       </>
     );
   }
@@ -216,13 +212,6 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-  // { label: 'H1', style: 'header-one' },
-  // { label: 'H2', style: 'header-two' },
-  // { label: 'H3', style: 'header-three' },
-  // { label: 'H4', style: 'header-four' },
-  // { label: 'Blockquote', style: 'blockquote' },
-  // { label: 'UL', style: 'unordered-list-item' },
-  // { label: 'OL', style: 'ordered-list-item' },
   { label: 'Code Block', style: 'code-block' },
 ];
 
@@ -251,16 +240,6 @@ const BlockStyleControls = (props) => {
 
 var INLINE_STYLES = [
   {},
-  //   {
-  //     label: <img src='https://img.icons8.com/android/24/000000/bold.png' />,
-  //     style: 'BOLD',
-  //   },
-  //   {
-  //     label: <img src='https://img.icons8.com/officexs/16/000000/italy.png' />,
-  //     style: 'ITALIC',
-  //   },
-  //   { label: 'Underline', style: 'UNDERLINE' },
-  //   { label: 'Monospace', style: 'CODE' },
 ];
 
 const InlineStyleControls = (props) => {

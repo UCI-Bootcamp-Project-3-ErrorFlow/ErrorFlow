@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Layout, Card} from 'antd';
+import { Layout, Card } from 'antd';
 import axios from 'axios';
-import './SignUp.css'
+import './SignUp.css';
 
-
-const { Header, Footer, Sider, Content } = Layout;
+const { Footer} = Layout;
 
 const SignUp = () => {
   const [userState, setUserState] = useState({
@@ -75,7 +74,6 @@ const SignUp = () => {
       })
       .then(({ data }) => {
         if (data) {
-          
           localStorage.setItem('user', data);
           window.location = '/Main';
         } else {
@@ -86,22 +84,16 @@ const SignUp = () => {
   };
 
   return (
-    
     <>
-  
-    <Content>
-      
       {localStorage.getItem('user') ? (
-        window.location= '/Main'
+        (window.location = '/Main')
       ) : (
-
-       
-        <Card classNAme="sign-In-Body">
-          <div className="sign-In">
-          <h3>Sign In</h3>
-          <form>
+        <Card classNAme='sign-In-Body'>
+          <div className='sign-In'>
+            <h3>Sign In</h3>
+            <form>
               <input
-                placeholder="Username"
+                placeholder='Username'
                 type='text'
                 name='username'
                 onChange={userState.handleInputSignIn}
@@ -109,70 +101,69 @@ const SignUp = () => {
               />
               <br></br>
               <input
-                placeholder="Password"
+                placeholder='Password'
                 type='password'
                 name='password'
                 onChange={userState.handleInputSignIn}
                 value={userState.password}
               />
-          <br></br>
-          <br></br>
-            <button onClick={userState.handleSignInBtn}>Sign In</button>
-          </form>
+              <br></br>
+              <br></br>
+              <button onClick={userState.handleSignInBtn}>Sign In</button>
+            </form>
           </div>
         </Card>
-        
       )}
-    </Content>
-    <Content>
-      <Card className ="card">
-        <div className = "sign-Up">
-      <h3>Sign Up</h3>
-      <form>
-        <input
-         placeholder="Name"
-          type='text'
-          name='name'
-          label='name'
-          value={userState.name}
-          onChange={userState.handleInputSignUp}
-        />
-        <br></br>
-        <input
-          placeholder="Email"
-          type='text'
-          name='email'
-          label='email'
-          value={userState.email}
-          onChange={userState.handleInputSignUp}
-        />
-        <br></br>
-        <input
-         placeholder="Username"
-          type='text'
-          name='newUsername'
-          label='newUsername'
-          value={userState.newUsername}
-          onChange={userState.handleInputSignUp}
-        />
-        <br></br>
-        <input
-          placeholder="Password"
-          type='password'
-          name='newPassword'
-          label='newPassword'
-          value={userState.newPassword}
-          onChange={userState.handleInputSignUp}
-        />
-        <br></br>
-        <br></br>
-        <button onClick={userState.handleSignUpBtn}>Sign Up</button>
-      </form>
-      </div>
+
+      <Card className='card'>
+        <div className='sign-Up'>
+          <h3>Sign Up</h3>
+          <form>
+            <input
+              placeholder='Name'
+              type='text'
+              name='name'
+              label='name'
+              value={userState.name}
+              onChange={userState.handleInputSignUp}
+            />
+            <br></br>
+            <input
+              placeholder='Email'
+              type='text'
+              name='email'
+              label='email'
+              value={userState.email}
+              onChange={userState.handleInputSignUp}
+            />
+            <br></br>
+            <input
+              placeholder='Username'
+              type='text'
+              name='newUsername'
+              label='newUsername'
+              value={userState.newUsername}
+              onChange={userState.handleInputSignUp}
+            />
+            <br></br>
+            <input
+              placeholder='Password'
+              type='password'
+              name='newPassword'
+              label='newPassword'
+              value={userState.newPassword}
+              onChange={userState.handleInputSignUp}
+            />
+            <br></br>
+            <br></br>
+            <button onClick={userState.handleSignUpBtn}>Sign Up</button>
+          </form>
+        </div>
       </Card>
-      </Content>
-      
-       <Footer className= "footer" style={{ textAlign: 'center' }}>ErrorFlow ©2020 Created by Flow Team</Footer>
+
+      <Footer className='footer' style={{ textAlign: 'center' }}>
+        ErrorFlow ©2020 Created by Flow Team
+      </Footer>
     </>
   );
 };
