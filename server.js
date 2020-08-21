@@ -102,7 +102,7 @@ io.on('connect', (socket) => {
 });
 
 require('mongoose')
-  .connect(process.env.MONGODB_URI || process.env.LOCAL_URI, {
+  .connect(process.env.DB_URI || process.env.LOCAL_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
