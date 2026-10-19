@@ -3,38 +3,41 @@ const { User } = require('../models');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 
-// Register Route -quinton 6/15 lecture
-router.post('/users/register', (req, res) => {
-  const { name, email, username } = req.body;
-  User.register(
-    new User({ name, email, username }),
-    req.body.password,
-    (err) => {
-      if (err) {
-        console.error(err);
-      }
-      res.sendStatus(200);
-    }
-  );
-});
+const isString = (v) => typeof v === 'string' && v.length > 0;
 
-// Login Route
-//login routes and create token as they do
-// if password and username are correct, returning user with matching hash salt, if either of them is not correct, will return false jsoned webtoken is able to see in the postman Header as you post with correct username and id
-router.post('/users/login', (req, res) => {
-  User.authenticate()(req.body.username, req.body.password, (err, user) => {
+router.post('/users/register', (req, res) => {
+  const { name, email, username, password } = req.body;
+  if (![name, email, username, password].every(isString)) {
+    return res.status(400).json({ error: 'Missing or invalid fields' });
+  }
+  User.register(new User({ name, email, username }), password, (err) => {
     if (err) {
       console.error(err);
+      return res.status(400).json({ error: 'Could not register user' });
     }
-    res.json(user ? jwt.sign({ id: user._id }, process.env.SECRET) : null);
+    res.sendStatus(200);
   });
 });
 
-router.get('/users/posts', passport.authenticate('jwt'), (req, res) => {
-  res.json(req.user);
+router.post('/users/login', (req, res) => {
+  const { username, password } = req.body;
+  if (!isString(username) || !isString(password)) return res.json(null);
+  User.authenticate()(username, password, (err, user) => {
+    if (err) console.error(err);
+    res.json(
+      user
+        ? jwt.sign({ id: user._id }, process.env.SECRET, { expiresIn: '7d' })
+        : null
+    );
+  });
 });
 
-router.get('/users/authorize', passport.authenticate('jwt'), (req, res) => {
+router.get('/users/posts', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { _id, name, username, posts } = req.user;
+  res.json({ _id, name, username, posts });
+});
+
+router.get('/users/authorize', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.sendStatus(200);
 });
 

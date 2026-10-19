@@ -1,65 +1,69 @@
 const router = require('express').Router();
 const { Post, User } = require('../models');
-//after locking with authen
 const passport = require('passport');
 
-//you need to have to have web-token when you want to see their posts.
-//in the postman, go to header and put authorization as key and jsoned web-token in the value.
+const auth = passport.authenticate('jwt', { session: false });
+const AUTHOR_FIELDS = 'name username';
+const OWNER_FIELDS = ['title', 'body', 'isSolved'];
+const PUBLIC_FIELDS = ['likeValue', 'isLiked'];
+
+const pick = (obj, keys) =>
+  keys.reduce((out, k) => (k in obj ? { ...out, [k]: obj[k] } : out), {});
+
+const fail = (res) => (err) => {
+  console.error(err);
+  res.sendStatus(500);
+};
+
 router.get('/posts', (req, res) => {
   Post.find()
-    .populate('author')
-    .populate('comment')
-    .populate('likes')
+    .populate('author', AUTHOR_FIELDS)
     .then((posts) => res.json(posts))
-    .catch((err) => console.error(err));
+    .catch(fail(res));
 });
 
-router.get('/myposts', passport.authenticate('jwt'), (req, res) => {
-  Post.find()
-    .populate('author')
-    .populate('comment')
-    .populate('likes')
-    .then((posts) => res.json(posts))
-    .catch((err) => console.error(err));
+router.post('/myposts', auth, async (req, res) => {
+  try {
+    const post = await Post.create({
+      ...pick(req.body, [...OWNER_FIELDS, ...PUBLIC_FIELDS]),
+      author: req.user._id,
+    });
+    await User.findByIdAndUpdate(req.user._id, { $push: { posts: post._id } });
+    res.json({
+      ...post.toObject(),
+      author: { _id: req.user._id, name: req.user.name, username: req.user.username },
+    });
+  } catch (err) {
+    fail(res)(err);
+  }
 });
 
-router.post('/myposts', passport.authenticate('jwt'), (req, res) => {
-  Post.create({
-    title: req.body.title,
-    body: req.body.body,
-    isSolved: req.body.isSolved,
-    likeValue: req.body.likeValue,
-    isLiked: req.body.isLiked,
-    comments: req.body.comment,
-    author: req.user._id,
-  })
-    .then((post) => {
-      User.findByIdAndUpdate(req.user._id, { $push: { posts: post._id } })
-        .then(() =>
-          res.json({
-            title: post.title,
-            body: post.body,
-            isSolved: post.isSolved,
-            isLiked: post.liked,
-            comments: post.comment,
-            author: req.user,
-          })
-        )
-        .catch((err) => console.error(err));
-    })
-    .catch((err) => console.error(err));
+router.put('/myposts/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) return res.sendStatus(404);
+    const isOwner = String(post.author) === String(req.user._id);
+    // Any signed-in user may like a post; only the author may edit it.
+    const allowed = isOwner ? [...OWNER_FIELDS, ...PUBLIC_FIELDS] : PUBLIC_FIELDS;
+    await Post.updateOne({ _id: post._id }, { $set: pick(req.body, allowed) });
+    res.sendStatus(200);
+  } catch (err) {
+    fail(res)(err);
+  }
 });
 
-router.put('/myposts/:id', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndUpdate(req.params.id, { $set: req.body })
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
-});
-
-router.delete('/myposts/:id', passport.authenticate('jwt'), (req, res) => {
-  Post.findByIdAndRemove(req.params.id)
-    .then(() => res.sendStatus(200))
-    .catch((err) => console.error(err));
+router.delete('/myposts/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findOneAndDelete({
+      _id: req.params.id,
+      author: req.user._id,
+    });
+    if (!post) return res.sendStatus(404);
+    await User.updateOne({ _id: req.user._id }, { $pull: { posts: post._id } });
+    res.sendStatus(200);
+  } catch (err) {
+    fail(res)(err);
+  }
 });
 
 module.exports = router;

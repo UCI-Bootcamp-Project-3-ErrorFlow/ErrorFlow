@@ -17,12 +17,11 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const ENDPOINT = 'https://guarded-harbor-13074.herokuapp.com';
   //or 'localhost:3001'
 
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-    socket = ioClient(ENDPOINT);
+    socket = ioClient();
     setRoom(room);
     setName(name);
 
@@ -31,7 +30,7 @@ const Chat = ({ location }) => {
         alert(error);
       }
     });
-  }, [ENDPOINT, location.search]);
+  }, [location.search]);
 
   useEffect(() => {
     socket.on('message', (message) => {
